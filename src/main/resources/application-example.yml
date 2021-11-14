@@ -1,0 +1,36 @@
+server:
+  port: 8080
+  security:
+    api-key: THE_API_KEY_STRING
+
+spring:
+  r2dbc:
+    url: jdbc:postgresql://localhost:5435/db_chrono_simples?verifyServerCertificate=false&useSSL=false
+    username: $POSTGRES_USER
+    password: $POSTGRES_PASSWORD
+    pool:
+      enabled: true
+      max-size: 10
+      max-idle-time: 30m
+
+logging:
+  level:
+    com:
+      valemobi:
+        openfinance:
+          pluggyconnectorapi: DEBUG
+
+    io:
+      r2dbc: ERROR
+      netty: ERROR
+
+    reactor:
+      netty:
+        http: ERROR
+    #        http: TRACE
+
+    org:
+      springframework:
+        r2dbc: ERROR
+        data:
+          r2dbc: ERROR
