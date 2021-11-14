@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.5.6'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "org.flywaydb.flyway" version "8.0.4"
 }
 
 group = 'dev.tonholo'
@@ -18,17 +19,29 @@ repositories {
     mavenCentral()
 }
 
+flyway {
+    configFiles = ['flyway.conf']
+}
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'io.r2dbc:r2dbc-postgresql'
-    runtimeOnly 'org.postgresql:postgresql'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.projectreactor:reactor-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc:2.5.6'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.5.6'
+    implementation 'io.projectreactor:reactor-tools:3.4.12'
+    implementation 'io.projectreactor.tools:blockhound:1.0.6.RELEASE'
+    implementation 'org.jetbrains:annotations:20.1.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+
+    runtimeOnly 'io.r2dbc:r2dbc-postgresql:0.8.10.RELEASE'
+    runtimeOnly 'org.postgresql:postgresql:42.3.1'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools:2.5.6'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.5.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.6'
+    testImplementation 'io.projectreactor:reactor-test:3.4.12'
 }
 
 test {
