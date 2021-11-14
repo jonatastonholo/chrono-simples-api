@@ -5,6 +5,7 @@ import dev.tonholo.chronosimplesapi.repository.postgres.mapper.ProjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -22,6 +23,12 @@ public class ProjectRepository {
     }
 
     public Mono<Project> findByName(String name) {
-        return projectReactiveRepository.findByName(name);
+        return projectReactiveRepository.findByName(name)
+                .map(projectMapper::from);
+    }
+
+    public Flux<Project> listAll() {
+        return projectReactiveRepository.findAllNotDeleted()
+                .map(projectMapper::from);
     }
 }

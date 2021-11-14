@@ -9,6 +9,7 @@ import dev.tonholo.chronosimplesapi.validator.ProjectCreationEventValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.PROJECT_ALREADY_EXISTS;
@@ -40,4 +41,7 @@ public class ProjectService {
     }
 
 
+    public Flux<Project> findAll() {
+        return projectRepository.listAll();
+    }
 }

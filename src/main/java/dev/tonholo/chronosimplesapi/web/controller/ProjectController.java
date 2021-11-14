@@ -4,10 +4,12 @@ import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.ProjectService;
 import dev.tonholo.chronosimplesapi.validator.ProjectRequestValidation;
 import dev.tonholo.chronosimplesapi.web.model.ProjectRequest;
+import dev.tonholo.chronosimplesapi.web.model.ProjectResponse;
 import dev.tonholo.chronosimplesapi.web.transformer.ProjectWebTransformer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -35,5 +37,23 @@ public class ProjectController {
                     ServerResponse
                             .status(HttpStatus.CREATED)
                             .bodyValue(projectResponse));
+    }
+
+    public Mono<ServerResponse> findAll(ServerRequest serverRequest) {
+        final var projectFlux = projectService
+                .findAll()
+                .map(projectWebTransformer::from);
+
+        return projectFlux
+                .hasElements()
+                .flatMap(hasElements ->
+                        Boolean.TRUE.equals(hasElements)
+                                ? ServerResponse
+                                    .ok()
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .body(projectFlux, ProjectResponse.class)
+                                : ServerResponse
+                                    .noContent()
+                                    .build());
     }
 }
