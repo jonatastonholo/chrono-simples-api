@@ -8,6 +8,7 @@ import dev.tonholo.chronosimplesapi.web.model.ProjectResponse;
 import dev.tonholo.chronosimplesapi.web.transformer.ProjectWebTransformer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ public class ProjectController {
     private final ProjectWebTransformer projectWebTransformer;
     private final ProjectService projectService;
 
+    @NotNull
     public Mono<ServerResponse> create(ServerRequest serverRequest) {
         return serverRequest
                 .bodyToMono(ProjectRequest.class)
@@ -39,7 +41,7 @@ public class ProjectController {
                             .bodyValue(projectResponse));
     }
 
-    public Mono<ServerResponse> findAll(ServerRequest serverRequest) {
+    public Mono<ServerResponse> findAll() {
         final var projectFlux = projectService
                 .findAll()
                 .map(projectWebTransformer::from);
@@ -55,5 +57,20 @@ public class ProjectController {
                                 : ServerResponse
                                     .noContent()
                                     .build());
+    }
+
+    @NotNull
+    public Mono<ServerResponse> update(ServerRequest serverRequest) {
+        final var projectId = serverRequest.pathVariable("id");
+        return serverRequest
+                .bodyToMono(ProjectRequest.class)
+                .switchIfEmpty(Mono.error(() -> new ApiException(BODY_REQUIRED)))
+                .map(projectRequest -> projectWebTransformer.from(projectRequest, projectId))
+                .flatMap(projectService::update)
+                .map(projectWebTransformer::from)
+                .flatMap(projectResponse ->
+                        ServerResponse
+                                .status(HttpStatus.CREATED)
+                                .bodyValue(projectResponse));
     }
 }

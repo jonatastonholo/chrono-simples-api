@@ -2,6 +2,7 @@ package dev.tonholo.chronosimplesapi.web.transformer;
 
 import dev.tonholo.chronosimplesapi.domain.Project;
 import dev.tonholo.chronosimplesapi.domain.event.ProjectCreationEvent;
+import dev.tonholo.chronosimplesapi.domain.event.ProjectUpdateEvent;
 import dev.tonholo.chronosimplesapi.web.model.ProjectRequest;
 import dev.tonholo.chronosimplesapi.web.model.ProjectResponse;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,15 @@ public class ProjectWebTransformer {
 
     public ProjectCreationEvent from(ProjectRequest projectRequest) {
         return ProjectCreationEvent.builder()
+                .name(projectRequest.getName())
+                .hourValue(projectRequest.getHourValue())
+                .currencyCode(projectRequest.getCurrencyCode())
+                .build();
+    }
+
+    public ProjectUpdateEvent from(ProjectRequest projectRequest, String projectId) {
+        return ProjectUpdateEvent.builder()
+                .id(projectId)
                 .name(projectRequest.getName())
                 .hourValue(projectRequest.getHourValue())
                 .currencyCode(projectRequest.getCurrencyCode())

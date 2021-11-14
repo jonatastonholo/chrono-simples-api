@@ -22,7 +22,8 @@ public class ProjectRouter implements Routes {
         return RouterFunctions
                 .route()
                 .POST("", accept(APPLICATION_JSON), projectController::create)
-                .GET("", accept(APPLICATION_JSON), projectController::findAll)
+                .GET("", accept(APPLICATION_JSON), request -> projectController.findAll())
+                .PUT("/{id}", accept(APPLICATION_JSON), projectController::update)
                 .build();
     }
 }

@@ -22,6 +22,11 @@ public class ProjectRepository {
                 .map(projectMapper::from);
     }
 
+    public Mono<Project> findById(String projectId) {
+        return projectReactiveRepository.findById(projectId)
+                .map(projectMapper::from);
+    }
+
     public Mono<Project> findByName(String name) {
         return projectReactiveRepository.findByName(name)
                 .map(projectMapper::from);

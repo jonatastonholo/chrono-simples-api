@@ -16,4 +16,14 @@ public class Project {
     private CurrencyCodeType currencyCode;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public Project merge(Project projectSaved) {
+        id = (id == null) ? projectSaved.id : id;
+        name = (name == null) ? projectSaved.name : name;
+        hourValue = (hourValue == null) ? projectSaved.hourValue : hourValue;
+        currencyCode = (currencyCode == null) ? projectSaved.currencyCode : currencyCode;
+        createdAt = (createdAt == null) ? projectSaved.createdAt : createdAt;
+        updatedAt = (updatedAt == null) ? projectSaved.updatedAt : updatedAt;
+        return this;
+    }
 }
