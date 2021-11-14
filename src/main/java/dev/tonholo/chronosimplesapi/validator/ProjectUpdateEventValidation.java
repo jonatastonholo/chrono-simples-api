@@ -16,7 +16,7 @@ public class ProjectUpdateEventValidation implements Validation<ProjectUpdateEve
 
     @Override
     public void validate(ProjectUpdateEvent projectUpdateEvent) {
-        notNull(projectUpdateEvent, REQUEST_CAN_NOT_BE_NULL);
+        notNull(projectUpdateEvent, EVENT_CAN_NOT_BE_NULL);
         notBlank(projectUpdateEvent.getId(), PROJECT_ID_REQUIRED);
 
         if (Strings.isBlank(projectUpdateEvent.getName())

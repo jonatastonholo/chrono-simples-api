@@ -17,6 +17,7 @@ public class ProjectTransformer {
                 .currencyCode(projectCreationEvent.getCurrencyCode())
                 .build();
     }
+
     public Project from(ProjectUpdateEvent projectUpdateEvent) {
         return Project.builder()
                 .id(projectUpdateEvent.getId())

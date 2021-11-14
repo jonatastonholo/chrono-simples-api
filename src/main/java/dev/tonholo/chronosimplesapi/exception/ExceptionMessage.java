@@ -9,6 +9,7 @@ public enum ExceptionMessage {
     UNAUTHORIZED("Unauthorized"),
     BODY_REQUIRED("The request body is required."),
     REQUEST_CAN_NOT_BE_NULL("The request cannot be null."),
+    EVENT_CAN_NOT_BE_NULL("The event cannot be null."),
 
     // Project
     PROJECT_ID_REQUIRED("The project id is required."),
@@ -20,7 +21,11 @@ public enum ExceptionMessage {
     PROJECT_ALREADY_EXISTS("There is already a registered project with the given name."),
     PROJECT_UPDATE_AT_LEAST_ONE_PARAMETER_MUST_BE_FILLED("At least one parameter must be filled to update the project."),
 
-    ;
+    // Period
+    PERIOD_BEGIN_REQUIRED("The period begin is required."),
+
+    PERIOD_IS_CONCOMITANT("The period informed has concurrency.");
+
 
 
 

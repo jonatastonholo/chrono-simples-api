@@ -18,8 +18,11 @@ import java.util.List;
 public class Router {
     private static final List<String> PUBLIC_ENDPOINTS = List.of("/health");
 
-    private final ProjectRouter projectRouter;
     private final SecurityService securityService;
+
+    private final ProjectRouter projectRouter;
+    private final PeriodRouter periodRouter;
+
 
     @Bean
     public RouterFunction<ServerResponse> highLevelRouter() {
@@ -31,6 +34,7 @@ public class Router {
 
                 .GET("/health", request -> ServerResponse.ok().build())
                 .path("/chrono-simples/v1/projects", projectRouter::routes)
+                .path("/chrono-simples/v1/periods", periodRouter::routes)
                 .build();
     }
 
