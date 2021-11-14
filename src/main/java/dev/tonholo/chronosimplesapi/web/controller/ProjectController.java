@@ -70,7 +70,17 @@ public class ProjectController {
                 .map(projectWebTransformer::from)
                 .flatMap(projectResponse ->
                         ServerResponse
-                                .status(HttpStatus.CREATED)
+                                .ok()
                                 .bodyValue(projectResponse));
+    }
+
+    public Mono<ServerResponse> delete(ServerRequest serverRequest) {
+        final var projectId = serverRequest.pathVariable("id");
+        return projectService.delete(projectId)
+                .map(projectWebTransformer::from)
+                .flatMap(projectResponse ->
+                        ServerResponse.ok()
+                                .bodyValue(projectResponse));
+
     }
 }

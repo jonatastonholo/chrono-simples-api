@@ -69,4 +69,10 @@ public class ProjectService {
                                 }))
                 .flatMap(projectRepository::save);
     }
+
+    public Mono<Project> delete(String projectId) {
+        return projectRepository.findById(projectId)
+                .switchIfEmpty(Mono.error(new ApiNotFoundException(PROJECT_NOT_FOUND)))
+                .flatMap(projectRepository::delete);
+    }
 }

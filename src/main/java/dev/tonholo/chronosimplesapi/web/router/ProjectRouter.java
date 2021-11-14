@@ -24,6 +24,7 @@ public class ProjectRouter implements Routes {
                 .POST("", accept(APPLICATION_JSON), projectController::create)
                 .GET("", accept(APPLICATION_JSON), request -> projectController.findAll())
                 .PUT("/{id}", accept(APPLICATION_JSON), projectController::update)
+                .DELETE("/{id}", accept(APPLICATION_JSON), projectController::delete)
                 .build();
     }
 }
