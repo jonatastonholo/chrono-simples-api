@@ -61,6 +61,10 @@ public class PeriodService {
         return periodRepository.findAll();
     }
 
+    public Mono<Period> findMostRecentPeriodWithoutEnd() {
+        return periodRepository.findMostRecentPeriodWithoutEnd();
+    }
+
     public Mono<Period> update(PeriodUpdateEvent periodUpdateEvent) {
         log.info("Updating period -> {}", periodUpdateEvent);
         return Mono.just(periodUpdateEvent)
@@ -99,5 +103,9 @@ public class PeriodService {
         return periodRepository.findById(periodId)
                 .switchIfEmpty(Mono.error(new ApiNotFoundException(PERIOD_NOT_FOUND)))
                 .flatMap(periodRepository::delete);
+    }
+
+    public Mono<Period> save(Period period) {
+        return periodRepository.save(period);
     }
 }

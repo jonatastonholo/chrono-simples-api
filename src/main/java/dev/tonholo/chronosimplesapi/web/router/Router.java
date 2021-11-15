@@ -16,13 +16,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class Router {
-    private static final List<String> PUBLIC_ENDPOINTS = List.of("/health");
+    private static final List<String> PUBLIC_ENDPOINTS = List.of("/health", "/chrono-simples/v1/stopwatches/listen");
 
     private final SecurityService securityService;
 
     private final ProjectRouter projectRouter;
     private final PeriodRouter periodRouter;
-
+    private final StopwatchRouter stopwatchRouter;
 
     @Bean
     public RouterFunction<ServerResponse> highLevelRouter() {
@@ -35,6 +35,7 @@ public class Router {
                 .GET("/health", request -> ServerResponse.ok().build())
                 .path("/chrono-simples/v1/projects", projectRouter::routes)
                 .path("/chrono-simples/v1/periods", periodRouter::routes)
+                .path("/chrono-simples/v1/stopwatches", stopwatchRouter::routes)
                 .build();
     }
 
