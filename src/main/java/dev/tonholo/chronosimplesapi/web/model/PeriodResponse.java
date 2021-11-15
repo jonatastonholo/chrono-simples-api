@@ -9,9 +9,10 @@ import java.time.LocalDateTime;
 @Value
 @Builder
 public class PeriodResponse {
+    String id;
     String projectId;
     String description;
     BigDecimal hourValue;
-    LocalDateTime timerBegin;
-    LocalDateTime timerEnd;
+    LocalDateTime begin;
+    LocalDateTime end;
 }

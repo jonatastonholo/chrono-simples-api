@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 
 @Value
 @Builder
-public class PeriodCreationEvent {
+public class PeriodUpdateEvent {
+    String id;
     String projectId;
     String description;
     BigDecimal hourValue;

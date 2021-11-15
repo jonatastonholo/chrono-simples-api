@@ -4,6 +4,8 @@ import dev.tonholo.chronosimplesapi.domain.Project;
 import dev.tonholo.chronosimplesapi.repository.postgres.entity.ProjectEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ProjectMapper {
 
@@ -14,7 +16,7 @@ public class ProjectMapper {
                 .hourValue(project.getHourValue())
                 .currencyCode(project.getCurrencyCode())
                 .createdAt(project.getCreatedAt())
-                .updatedAt(project.getUpdatedAt())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 

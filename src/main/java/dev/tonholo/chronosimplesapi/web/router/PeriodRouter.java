@@ -22,9 +22,9 @@ public class PeriodRouter implements Routes {
         return RouterFunctions
                 .route()
                 .POST("", accept(APPLICATION_JSON), periodController::create)
-//                .GET("", accept(APPLICATION_JSON), request -> periodController.findAll())
-//                .PUT("/{id}", accept(APPLICATION_JSON), periodController::update)
-//                .DELETE("/{id}", accept(APPLICATION_JSON), periodController::delete)
+                .GET("", accept(APPLICATION_JSON), request -> periodController.findAll())
+                .PUT("/{id}", accept(APPLICATION_JSON), periodController::update)
+                .DELETE("/{id}", accept(APPLICATION_JSON), periodController::delete)
                 .build();
     }
 }
