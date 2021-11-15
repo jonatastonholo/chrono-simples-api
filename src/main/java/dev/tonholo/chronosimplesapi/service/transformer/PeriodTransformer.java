@@ -11,8 +11,8 @@ public class PeriodTransformer {
         return Period.builder()
                 .projectId(periodCreationEvent.getProjectId())
                 .hourValue(periodCreationEvent.getHourValue())
-                .begin(periodCreationEvent.getTimerBegin())
-                .end(periodCreationEvent.getTimerEnd())
+                .begin(periodCreationEvent.getBegin())
+                .end(periodCreationEvent.getEnd())
                 .description(periodCreationEvent.getDescription())
                 .build();
     }

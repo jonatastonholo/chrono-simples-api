@@ -12,6 +12,6 @@ public class PeriodResponse {
     String projectId;
     String description;
     BigDecimal hourValue;
-    LocalDateTime timerBegin;
-    LocalDateTime timerEnd;
+    LocalDateTime begin;
+    LocalDateTime end;
 }

@@ -10,6 +10,7 @@ import dev.tonholo.chronosimplesapi.validator.PeriodCreationEventValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -49,8 +50,10 @@ public class PeriodService {
                 .flatMap(periodToSave ->
                 {
                     log.info("Checking if the period has concurrency");
-                    return periodRepository.hasConcurrency(periodToSave)
-                            .switchIfEmpty(Mono.just(false))
+                    return periodRepository.findAll()
+                            .filter(periodSaved
+                                    -> periodSaved.hasConcurrency(periodCreationEvent.getBegin(), periodCreationEvent.getEnd()))
+                            .hasElements()
                             .map(hasConcurrency -> {
                                 if (Boolean.TRUE.equals(hasConcurrency)) {
                                     throw new ApiException(PERIOD_IS_CONCOMITANT);
@@ -59,5 +62,9 @@ public class PeriodService {
                             });
                 })
                 .flatMap(periodRepository::save);
+    }
+
+    public Flux<Period> findAll() {
+        return periodRepository.findAll();
     }
 }

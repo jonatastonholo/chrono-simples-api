@@ -24,7 +24,8 @@ public enum ExceptionMessage {
     // Period
     PERIOD_BEGIN_REQUIRED("The period begin is required."),
 
-    PERIOD_IS_CONCOMITANT("The period informed has concurrency.");
+    PERIOD_IS_CONCOMITANT("The period informed has concurrency."),
+    PERIOD_BEGIN_MUST_BE_BEFORE_END("The period begin must be before the period end.");
 
 
 

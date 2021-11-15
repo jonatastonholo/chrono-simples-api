@@ -16,6 +16,6 @@ public class PeriodCreationRequest {
     private String projectId;
     private String description;
     private BigDecimal hourValue;
-    private LocalDateTime timerBegin;
-    private LocalDateTime timerEnd;
+    private LocalDateTime begin;
+    private LocalDateTime end;
 }

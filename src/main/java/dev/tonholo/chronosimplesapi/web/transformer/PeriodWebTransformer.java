@@ -14,8 +14,8 @@ public class PeriodWebTransformer {
                 .projectId(periodCreationRequest.getProjectId())
                 .description(periodCreationRequest.getDescription())
                 .hourValue(periodCreationRequest.getHourValue())
-                .timerBegin(periodCreationRequest.getTimerBegin())
-                .timerEnd(periodCreationRequest.getTimerEnd())
+                .begin(periodCreationRequest.getBegin())
+                .end(periodCreationRequest.getEnd())
                 .build();
     }
 
@@ -24,8 +24,8 @@ public class PeriodWebTransformer {
                 .projectId(periodCreationRequest.getProjectId())
                 .description(periodCreationRequest.getDescription())
                 .hourValue(periodCreationRequest.getHourValue())
-                .timerBegin(periodCreationRequest.getBegin())
-                .timerEnd(periodCreationRequest.getEnd())
+                .begin(periodCreationRequest.getBegin())
+                .end(periodCreationRequest.getEnd())
                 .build();
     }
 }

@@ -3,11 +3,13 @@ package dev.tonholo.chronosimplesapi.web.controller;
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.PeriodService;
 import dev.tonholo.chronosimplesapi.web.model.PeriodCreationRequest;
+import dev.tonholo.chronosimplesapi.web.model.PeriodResponse;
 import dev.tonholo.chronosimplesapi.web.transformer.PeriodWebTransformer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -30,9 +32,27 @@ public class PeriodController {
                 .map(periodWebTransformer::from)
                 .flatMap(periodService::create)
                 .map(periodWebTransformer::from)
-                .flatMap(projectResponse ->
+                .flatMap(periodResponse ->
                         ServerResponse
                                 .status(HttpStatus.CREATED)
-                                .bodyValue(projectResponse));
+                                .bodyValue(periodResponse));
+    }
+
+    public Mono<ServerResponse> findAll() {
+        final var periodFlux = periodService
+                .findAll()
+                .map(periodWebTransformer::from);
+
+        return periodFlux
+                .hasElements()
+                .flatMap(hasElements ->
+                        Boolean.TRUE.equals(hasElements)
+                                ? ServerResponse
+                                .ok()
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body(periodFlux, PeriodResponse.class)
+                                : ServerResponse
+                                .noContent()
+                                .build());
     }
 }

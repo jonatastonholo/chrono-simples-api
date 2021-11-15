@@ -5,6 +5,7 @@ import dev.tonholo.chronosimplesapi.repository.postgres.mapper.PeriodMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -21,8 +22,9 @@ public class PeriodRepository {
                 .map(periodMapper::from);
     }
 
-    public Mono<Boolean> hasConcurrency(Period period) {
-        return periodReactiveRepository.hasConcurrency(period.getBegin())
-                .map(count ->  (count > 0));
+    public Flux<Period> findAll() {
+        return periodReactiveRepository
+                .findAllNotDeleted()
+                .map(periodMapper::from);
     }
 }
