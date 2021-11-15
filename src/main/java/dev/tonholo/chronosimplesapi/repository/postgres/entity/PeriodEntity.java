@@ -24,5 +24,5 @@ public class PeriodEntity {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String deleted;
+    private boolean deleted;
 }

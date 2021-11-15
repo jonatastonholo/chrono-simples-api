@@ -1,4 +1,4 @@
-package dev.tonholo.chronosimplesapi.web.model;
+package dev.tonholo.chronosimplesapi.domain.event;
 
 import lombok.Builder;
 import lombok.Value;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Value
 @Builder
-public class PeriodResponse {
+public class PeriodUpdateEvent {
     String id;
     String projectId;
     String description;

@@ -2,13 +2,18 @@ package dev.tonholo.chronosimplesapi.service;
 
 import dev.tonholo.chronosimplesapi.domain.Period;
 import dev.tonholo.chronosimplesapi.domain.event.PeriodCreationEvent;
+import dev.tonholo.chronosimplesapi.domain.event.PeriodUpdateEvent;
 import dev.tonholo.chronosimplesapi.exception.ApiException;
+import dev.tonholo.chronosimplesapi.exception.ApiNotFoundException;
 import dev.tonholo.chronosimplesapi.repository.postgres.PeriodRepository;
 import dev.tonholo.chronosimplesapi.repository.postgres.ProjectRepository;
 import dev.tonholo.chronosimplesapi.service.transformer.PeriodTransformer;
 import dev.tonholo.chronosimplesapi.validator.PeriodCreationEventValidation;
+import dev.tonholo.chronosimplesapi.validator.PeriodUpdateEventValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,8 +21,7 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.PERIOD_IS_CONCOMITANT;
-import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.PROJECT_NOT_FOUND;
+import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +31,9 @@ public class PeriodService {
     private final PeriodRepository periodRepository;
     private final ProjectRepository projectRepository;
     private final PeriodTransformer periodTransformer;
+
     private final PeriodCreationEventValidation periodCreationEventValidation;
+    private final PeriodUpdateEventValidation periodUpdateEventValidation;
 
     public Mono<Period> create(PeriodCreationEvent periodCreationEvent) {
         log.info("Creating new period -> {}", periodCreationEvent);
@@ -47,24 +53,45 @@ public class PeriodService {
                     }
                     return period;
                 })
-                .flatMap(periodToSave ->
-                {
-                    log.info("Checking if the period has concurrency");
-                    return periodRepository.findAll()
-                            .filter(periodSaved
-                                    -> periodSaved.hasConcurrency(periodCreationEvent.getBegin(), periodCreationEvent.getEnd()))
-                            .hasElements()
-                            .map(hasConcurrency -> {
-                                if (Boolean.TRUE.equals(hasConcurrency)) {
-                                    throw new ApiException(PERIOD_IS_CONCOMITANT);
-                                }
-                                return periodToSave;
-                            });
-                })
+                .flatMap(this::checkIfPeriodHaveConcurrency)
                 .flatMap(periodRepository::save);
     }
 
     public Flux<Period> findAll() {
         return periodRepository.findAll();
+    }
+
+    public Mono<Period> update(PeriodUpdateEvent periodUpdateEvent) {
+        log.info("Updating period -> {}", periodUpdateEvent);
+        return Mono.just(periodUpdateEvent)
+                .doOnNext(periodUpdateEventValidation::validate)
+                .flatMap(unused ->
+                        periodRepository.findById(periodUpdateEvent.getId()))
+                .switchIfEmpty(Mono.error(new ApiNotFoundException(PERIOD_NOT_FOUND)))
+                .flatMap(periodSaved ->
+                        projectRepository
+                                .findById(Strings.isNotBlank(periodUpdateEvent.getProjectId())
+                                        ? periodUpdateEvent.getProjectId()
+                                        : periodSaved.getProjectId())
+                                .switchIfEmpty(Mono.error(new ApiException(PROJECT_NOT_FOUND)))
+                                .flatMap(projectSaved -> {
+                                    log.info("Updating period -> {}", periodUpdateEvent);
+                                    final Period periodToUpdate = periodTransformer.from(periodUpdateEvent);
+                                    return Mono.just(periodToUpdate.completeFrom(periodSaved));
+                                }))
+                .flatMap(this::checkIfPeriodHaveConcurrency)
+                .flatMap(periodRepository::save);
+    }
+
+    @NotNull
+    private Mono<Period> checkIfPeriodHaveConcurrency(Period toVerify) {
+        log.info("Checking if the period have concurrency. Begin: {} | End: {}", toVerify.getBegin(), toVerify.getEnd());
+        return periodRepository.hasConcurrency(toVerify.getBegin(), toVerify.getEnd())
+                .map(hasConcurrency -> {
+                    if (Boolean.TRUE.equals(hasConcurrency)) {
+                        throw new ApiException(PERIOD_IS_CONCOMITANT);
+                    }
+                    return toVerify;
+                });
     }
 }

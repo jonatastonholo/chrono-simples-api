@@ -2,30 +2,43 @@ package dev.tonholo.chronosimplesapi.web.transformer;
 
 import dev.tonholo.chronosimplesapi.domain.Period;
 import dev.tonholo.chronosimplesapi.domain.event.PeriodCreationEvent;
-import dev.tonholo.chronosimplesapi.web.model.PeriodCreationRequest;
+import dev.tonholo.chronosimplesapi.domain.event.PeriodUpdateEvent;
+import dev.tonholo.chronosimplesapi.web.model.PeriodRequest;
 import dev.tonholo.chronosimplesapi.web.model.PeriodResponse;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PeriodWebTransformer {
 
-    public PeriodCreationEvent from(PeriodCreationRequest periodCreationRequest) {
+    public PeriodCreationEvent from(PeriodRequest periodRequest) {
         return PeriodCreationEvent.builder()
-                .projectId(periodCreationRequest.getProjectId())
-                .description(periodCreationRequest.getDescription())
-                .hourValue(periodCreationRequest.getHourValue())
-                .begin(periodCreationRequest.getBegin())
-                .end(periodCreationRequest.getEnd())
+                .projectId(periodRequest.getProjectId())
+                .description(periodRequest.getDescription())
+                .hourValue(periodRequest.getHourValue())
+                .begin(periodRequest.getBegin())
+                .end(periodRequest.getEnd())
                 .build();
     }
 
-    public PeriodResponse from(Period periodCreationRequest) {
+    public PeriodUpdateEvent from(PeriodRequest periodRequest, String periodId) {
+        return PeriodUpdateEvent.builder()
+                .id(periodId)
+                .projectId(periodRequest.getProjectId())
+                .description(periodRequest.getDescription())
+                .hourValue(periodRequest.getHourValue())
+                .begin(periodRequest.getBegin())
+                .end(periodRequest.getEnd())
+                .build();
+    }
+
+    public PeriodResponse from(Period period) {
         return PeriodResponse.builder()
-                .projectId(periodCreationRequest.getProjectId())
-                .description(periodCreationRequest.getDescription())
-                .hourValue(periodCreationRequest.getHourValue())
-                .begin(periodCreationRequest.getBegin())
-                .end(periodCreationRequest.getEnd())
+                .id(period.getId())
+                .projectId(period.getProjectId())
+                .description(period.getDescription())
+                .hourValue(period.getHourValue())
+                .begin(period.getBegin())
+                .end(period.getEnd())
                 .build();
     }
 }

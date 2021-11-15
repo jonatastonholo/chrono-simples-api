@@ -51,4 +51,16 @@ public class Period {
                 || savedPeriodNotOverYetAndEndIsNull
                 || savedPeriodNotOverYetAndEndIsAfterSavedBegin;
     }
+
+    public Period completeFrom(Period source) {
+        id = (id == null) ? source.id : id;
+        projectId = (projectId == null) ? source.projectId : projectId;
+        hourValue = (hourValue == null) ? source.hourValue : hourValue;
+        begin = (begin == null) ? source.begin : begin;
+        end = (end == null) ? source.end : end;
+        description = (description == null) ? source.description : description;
+        createdAt = (createdAt == null) ? source.createdAt : createdAt;
+        updatedAt = (updatedAt == null) ? source.updatedAt : updatedAt;
+        return this;
+    }
 }

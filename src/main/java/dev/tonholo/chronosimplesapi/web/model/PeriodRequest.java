@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PeriodCreationRequest {
+public class PeriodRequest {
     private String projectId;
     private String description;
     private BigDecimal hourValue;

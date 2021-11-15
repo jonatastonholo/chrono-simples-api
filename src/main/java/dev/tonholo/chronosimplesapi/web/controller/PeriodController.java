@@ -2,7 +2,7 @@ package dev.tonholo.chronosimplesapi.web.controller;
 
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.PeriodService;
-import dev.tonholo.chronosimplesapi.web.model.PeriodCreationRequest;
+import dev.tonholo.chronosimplesapi.web.model.PeriodRequest;
 import dev.tonholo.chronosimplesapi.web.model.PeriodResponse;
 import dev.tonholo.chronosimplesapi.web.transformer.PeriodWebTransformer;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class PeriodController {
     @NotNull
     public Mono<ServerResponse> create(ServerRequest serverRequest) {
         return serverRequest
-                .bodyToMono(PeriodCreationRequest.class)
+                .bodyToMono(PeriodRequest.class)
                 .switchIfEmpty(Mono.error(() -> new ApiException(BODY_REQUIRED)))
                 .map(periodWebTransformer::from)
                 .flatMap(periodService::create)
@@ -48,15 +48,25 @@ public class PeriodController {
                 .flatMap(hasElements ->
                         Boolean.TRUE.equals(hasElements)
                                 ? ServerResponse
-                                .ok()
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .body(periodFlux, PeriodResponse.class)
+                                    .ok()
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .body(periodFlux, PeriodResponse.class)
                                 : ServerResponse
-                                .noContent()
-                                .build());
+                                    .noContent()
+                                    .build());
     }
 
     public Mono<ServerResponse> update(ServerRequest serverRequest) {
-        return null;
+        final var periodId = serverRequest.pathVariable("id");
+        return serverRequest
+                .bodyToMono(PeriodRequest.class)
+                .switchIfEmpty(Mono.error(() -> new ApiException(BODY_REQUIRED)))
+                .map(periodRequest -> periodWebTransformer.from(periodRequest, periodId))
+                .flatMap(periodService::update)
+                .map(periodWebTransformer::from)
+                .flatMap(periodResponse ->
+                        ServerResponse
+                                .ok()
+                                .bodyValue(periodResponse));
     }
 }

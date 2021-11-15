@@ -65,7 +65,7 @@ public class ProjectService {
                                     }
                                     log.info("Updating project -> {}", projectUpdateEvent);
                                     final Project projectToUpdate = projectTransformer.from(projectUpdateEvent);
-                                    return Mono.just(projectToUpdate.merge(projectSaved));
+                                    return Mono.just(projectToUpdate.completeFrom(projectSaved));
                                 }))
                 .flatMap(projectRepository::save);
     }

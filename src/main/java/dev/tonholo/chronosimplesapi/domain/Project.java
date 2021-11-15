@@ -17,13 +17,13 @@ public class Project {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Project merge(Project projectSaved) {
-        id = (id == null) ? projectSaved.id : id;
-        name = (name == null) ? projectSaved.name : name;
-        hourValue = (hourValue == null) ? projectSaved.hourValue : hourValue;
-        currencyCode = (currencyCode == null) ? projectSaved.currencyCode : currencyCode;
-        createdAt = (createdAt == null) ? projectSaved.createdAt : createdAt;
-        updatedAt = (updatedAt == null) ? projectSaved.updatedAt : updatedAt;
+    public Project completeFrom(Project source) {
+        id = (id == null) ? source.id : id;
+        name = (name == null) ? source.name : name;
+        hourValue = (hourValue == null) ? source.hourValue : hourValue;
+        currencyCode = (currencyCode == null) ? source.currencyCode : currencyCode;
+        createdAt = (createdAt == null) ? source.createdAt : createdAt;
+        updatedAt = (updatedAt == null) ? source.updatedAt : updatedAt;
         return this;
     }
 }

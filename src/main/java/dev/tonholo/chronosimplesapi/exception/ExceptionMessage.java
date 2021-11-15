@@ -22,10 +22,12 @@ public enum ExceptionMessage {
     PROJECT_UPDATE_AT_LEAST_ONE_PARAMETER_MUST_BE_FILLED("At least one parameter must be filled to update the project."),
 
     // Period
+    PERIOD_NOT_FOUND("The period was not found."),
     PERIOD_BEGIN_REQUIRED("The period begin is required."),
-
     PERIOD_IS_CONCOMITANT("The period informed has concurrency."),
-    PERIOD_BEGIN_MUST_BE_BEFORE_END("The period begin must be before the period end.");
+    PERIOD_BEGIN_MUST_BE_BEFORE_END("The period begin must be before the period end."),
+    PERIOD_ID_REQUIRED("The period id is required"),
+    ;
 
 
 

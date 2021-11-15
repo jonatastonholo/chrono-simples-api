@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -25,6 +27,19 @@ public class PeriodRepository {
     public Flux<Period> findAll() {
         return periodReactiveRepository
                 .findAllNotDeleted()
+                .map(periodMapper::from);
+    }
+
+    public Mono<Boolean> hasConcurrency(LocalDateTime begin, LocalDateTime end) {
+        return findAll()
+                .filter(periodSaved
+                        -> periodSaved.hasConcurrency(begin, end))
+                .hasElements();
+    }
+
+    public Mono<Period> findById(String periodId) {
+        return periodReactiveRepository
+                .findByIdNotDeleted(periodId)
                 .map(periodMapper::from);
     }
 }

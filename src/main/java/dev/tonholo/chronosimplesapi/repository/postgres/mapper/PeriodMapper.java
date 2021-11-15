@@ -4,6 +4,8 @@ import dev.tonholo.chronosimplesapi.domain.Period;
 import dev.tonholo.chronosimplesapi.repository.postgres.entity.PeriodEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class PeriodMapper {
 
@@ -16,7 +18,7 @@ public class PeriodMapper {
                 .hourValue(period.getHourValue())
                 .description(period.getDescription())
                 .createdAt(period.getCreatedAt())
-                .updatedAt(period.getUpdatedAt())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 
