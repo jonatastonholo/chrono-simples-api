@@ -55,6 +55,10 @@ public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
                     final var apiException = (ApiException) error;
                     log.error(apiException.getMessage(), error);
                     response = new ApiExceptionResponse(apiException);
+                } else if (error instanceof UnsupportedOperationException
+                            || (error instanceof ResponseStatusException && HttpStatus.NOT_FOUND.equals(((ResponseStatusException) error).getStatus()))) {
+                    log.error("Endpoint not implemented", error);
+                    response = new ApiExceptionResponse(NOT_IMPLEMENTED, "Endpoint not implemented.");
                 } else {
                     final var exception = ((ServerWebInputException) error).getMostSpecificCause();
                     if (exception instanceof ApiException) {

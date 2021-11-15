@@ -22,7 +22,7 @@ public class Router {
 
     private final ProjectRouter projectRouter;
     private final PeriodRouter periodRouter;
-
+    private final StopwatchRouter stopwatchRouter;
 
     @Bean
     public RouterFunction<ServerResponse> highLevelRouter() {
@@ -35,6 +35,7 @@ public class Router {
                 .GET("/health", request -> ServerResponse.ok().build())
                 .path("/chrono-simples/v1/projects", projectRouter::routes)
                 .path("/chrono-simples/v1/periods", periodRouter::routes)
+                .path("/chrono-simples/v1/stopwatches", stopwatchRouter::routes)
                 .build();
     }
 

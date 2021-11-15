@@ -6,7 +6,6 @@ import dev.tonholo.chronosimplesapi.web.model.PeriodRequest;
 import dev.tonholo.chronosimplesapi.web.model.PeriodResponse;
 import dev.tonholo.chronosimplesapi.web.transformer.PeriodWebTransformer;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +18,6 @@ import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.BODY_REQUI
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class PeriodController {
     private final PeriodService periodService;
     private final PeriodWebTransformer periodWebTransformer;

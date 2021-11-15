@@ -7,7 +7,6 @@ import dev.tonholo.chronosimplesapi.web.model.ProjectRequest;
 import dev.tonholo.chronosimplesapi.web.model.ProjectResponse;
 import dev.tonholo.chronosimplesapi.web.transformer.ProjectWebTransformer;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,7 +19,6 @@ import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.BODY_REQUI
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class ProjectController {
     private final ProjectRequestValidation projectRequestValidation;
     private final ProjectWebTransformer projectWebTransformer;

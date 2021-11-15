@@ -55,4 +55,9 @@ public class PeriodRepository {
                 .flatMap(periodReactiveRepository::save)
                 .map(periodMapper::from);
     }
+
+    public Mono<Period> findMostRecentPeriodWithoutEnd() {
+        return periodReactiveRepository.findMostRecentPeriodWithoutEnd()
+                .map(periodMapper::from);
+    }
 }

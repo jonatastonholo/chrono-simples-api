@@ -13,4 +13,8 @@ interface PeriodReactiveRepository extends ReactiveCrudRepository<PeriodEntity, 
 
     @Query("SELECT * FROM db_chrono_simples.tb_period WHERE id = $1 AND deleted IS FALSE")
     Mono<PeriodEntity> findByIdNotDeleted(String periodId);
+
+    @Query("SELECT * FROM db_chrono_simples.tb_period WHERE period_end IS NULL AND deleted IS FALSE ORDER BY period_begin DESC LIMIT 1")
+    Mono<PeriodEntity> findMostRecentPeriodWithoutEnd();
+
 }
