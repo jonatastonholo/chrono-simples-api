@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class Router {
-    private static final List<String> PUBLIC_ENDPOINTS = List.of("/health");
+    private static final List<String> PUBLIC_ENDPOINTS = List.of("/health", "/chrono-simples/v1/stopwatches/listen");
 
     private final SecurityService securityService;
 

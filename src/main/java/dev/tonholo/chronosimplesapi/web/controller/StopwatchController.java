@@ -1,5 +1,6 @@
 package dev.tonholo.chronosimplesapi.web.controller;
 
+import dev.tonholo.chronosimplesapi.domain.event.StopwatchEventResponse;
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.StopwatchService;
 import dev.tonholo.chronosimplesapi.web.model.StopwatchRequest;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -41,5 +43,11 @@ public class StopwatchController {
                 .flatMap(stopwatchResponse ->
                         ServerResponse.ok()
                                 .bodyValue(stopwatchResponse));
+    }
+
+    public Mono<ServerResponse> listen() {
+        return ServerResponse.ok()
+                .contentType(MediaType.TEXT_EVENT_STREAM)
+                .body(stopwatchService.listen(), StopwatchEventResponse.class);
     }
 }

@@ -27,7 +27,8 @@ public enum ExceptionMessage {
     PERIOD_IS_CONCOMITANT("The period informed has concurrency."),
     PERIOD_BEGIN_MUST_BE_BEFORE_END("The period begin must be before the period end."),
     PERIOD_ID_REQUIRED("The period id is required."),
-    STOPWATCH_NOT_RUNNING("The stopwatch is not running to be stoped."),
+    STOPWATCH_NOT_RUNNING_TO_STOP("The stopwatch is not running to be stopped."),
+    STOPWATCH_NOT_RUNNING_TO_LISTEN("The stopwatch is not running to be listened."),
 
     ;
 

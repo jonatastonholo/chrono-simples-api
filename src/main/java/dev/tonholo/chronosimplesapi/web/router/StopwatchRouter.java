@@ -23,9 +23,7 @@ public class StopwatchRouter  implements Routes {
                 .route()
                 .PATCH("/start", accept(APPLICATION_JSON), stopwatchController::start)
                 .PATCH("/stop", accept(APPLICATION_JSON), stopwatchController::stop)
-//                .GET("", accept(APPLICATION_JSON), request -> stopwatchController.findAll())
-//                .PUT("/{id}", accept(APPLICATION_JSON), stopwatchController::update)
-//                .DELETE("/{id}", accept(APPLICATION_JSON), stopwatchController::delete)
+                .GET("/listen", accept(APPLICATION_JSON), request -> stopwatchController.listen())
                 .build();
     }
 }
