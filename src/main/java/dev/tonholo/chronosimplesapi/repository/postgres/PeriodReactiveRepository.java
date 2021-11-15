@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 
 interface PeriodReactiveRepository extends ReactiveCrudRepository<PeriodEntity, String> {
 
-    @Query("SELECT * FROM db_chrono_simples.tb_period WHERE deleted IS FALSE")
+    @Query("SELECT * FROM db_chrono_simples.tb_period WHERE deleted IS FALSE ORDER BY period_begin DESC")
     Flux<PeriodEntity> findAllNotDeleted();
 
 }

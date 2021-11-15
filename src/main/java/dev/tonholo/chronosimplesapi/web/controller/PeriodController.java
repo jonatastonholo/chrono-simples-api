@@ -55,4 +55,8 @@ public class PeriodController {
                                 .noContent()
                                 .build());
     }
+
+    public Mono<ServerResponse> update(ServerRequest serverRequest) {
+        return null;
+    }
 }
