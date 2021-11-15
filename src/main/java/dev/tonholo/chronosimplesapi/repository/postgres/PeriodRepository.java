@@ -42,4 +42,17 @@ public class PeriodRepository {
                 .findByIdNotDeleted(periodId)
                 .map(periodMapper::from);
     }
+
+    public Mono<Period> delete(Period period) {
+        return Mono.just(period)
+                .map(periodMapper::from)
+                .map(periodEntity -> {
+                    log.debug("Soft Deleting period -> {}", period);
+                    periodEntity.setDeleted(true);
+                    periodEntity.setUpdatedAt(LocalDateTime.now());
+                    return periodEntity;
+                })
+                .flatMap(periodReactiveRepository::save)
+                .map(periodMapper::from);
+    }
 }

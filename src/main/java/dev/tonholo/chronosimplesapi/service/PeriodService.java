@@ -94,4 +94,10 @@ public class PeriodService {
                     return toVerify;
                 });
     }
+
+    public Mono<Period> delete(String periodId) {
+        return periodRepository.findById(periodId)
+                .switchIfEmpty(Mono.error(new ApiNotFoundException(PERIOD_NOT_FOUND)))
+                .flatMap(periodRepository::delete);
+    }
 }

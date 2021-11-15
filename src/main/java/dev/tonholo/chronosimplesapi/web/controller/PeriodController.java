@@ -56,6 +56,7 @@ public class PeriodController {
                                     .build());
     }
 
+    @NotNull
     public Mono<ServerResponse> update(ServerRequest serverRequest) {
         final var periodId = serverRequest.pathVariable("id");
         return serverRequest
@@ -67,6 +68,16 @@ public class PeriodController {
                 .flatMap(periodResponse ->
                         ServerResponse
                                 .ok()
+                                .bodyValue(periodResponse));
+    }
+
+    @NotNull
+    public Mono<ServerResponse> delete(ServerRequest serverRequest) {
+        final var periodId = serverRequest.pathVariable("id");
+        return periodService.delete(periodId)
+                .map(periodWebTransformer::from)
+                .flatMap(periodResponse ->
+                        ServerResponse.ok()
                                 .bodyValue(periodResponse));
     }
 }
