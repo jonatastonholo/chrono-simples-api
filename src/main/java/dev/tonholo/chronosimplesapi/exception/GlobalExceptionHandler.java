@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebInputException;
 import reactor.core.publisher.Mono;
 
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.INTERNAL_ERROR;
@@ -74,6 +75,9 @@ public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
                         if (exception instanceof JsonMappingException || exception instanceof JsonParseException) {
                             log.error("Error trying to serialize/deserialize JSON. Payload contains syntax error.", exception);
                             response = new ApiExceptionResponse(BAD_REQUEST, "Error trying to serialize/deserialize JSON. Payload contains syntax error.");
+                        } else if (exception instanceof DateTimeParseException) {
+                            log.error("Error trying to serialize/deserialize JSON. Invalid date.", exception);
+                            response = new ApiExceptionResponse(BAD_REQUEST, "Error trying to serialize/deserialize JSON. Invalid date.");
                         } else if(exception instanceof CodecException) {
                                 log.error("Any decoding error occurred.", exception);
                                 response = new ApiExceptionResponse(INTERNAL_SERVER_ERROR, INTERNAL_ERROR.getMessage());

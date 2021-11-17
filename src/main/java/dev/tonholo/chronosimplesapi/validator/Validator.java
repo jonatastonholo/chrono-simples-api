@@ -5,6 +5,7 @@ import dev.tonholo.chronosimplesapi.exception.ExceptionMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Slf4j
@@ -31,6 +32,10 @@ public abstract class Validator {
 
     public static void isFalse(boolean value, ExceptionMessage exceptionMessage) {
         if (value) throwValidationException(exceptionMessage);
+    }
+
+    public static void greaterThanZero(BigDecimal value, ExceptionMessage exceptionMessage) {
+        if (value.compareTo(BigDecimal.ZERO) <= 0) throwValidationException(exceptionMessage);
     }
 
     private static void throwValidationException(ExceptionMessage exceptionMessage) {

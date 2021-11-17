@@ -30,6 +30,17 @@ public enum ExceptionMessage {
     STOPWATCH_NOT_RUNNING_TO_STOP("The stopwatch is not running to be stopped."),
     STOPWATCH_NOT_RUNNING_TO_LISTEN("The stopwatch is not running to be listened."),
 
+    // Expense
+    EXPENSE_NOT_FOUND("The expense was not found."),
+    EXPENSE_ID_REQUIRED("The expense id is required."),
+    EXPENSE_TYPE_INVALID("The expense type is invalid. Accepted values: {}."),
+    EXPENSE_DESCRIPTION_REQUIRED("The expense description is required."),
+    EXPENSE_VALUE_REQUIRED("The expense value is required."),
+    EXPENSE_VALUE_MORE_THAN_ZERO("The expense value must be more than zero."),
+    EXPENSE_TYPE_REQUIRED("The expense type is required."),
+    EXPENSE_PERIOD_BEGIN_REQUIRED("The expense period begin is required."),
+    EXPENSE_PERIOD_END_REQUIRED("The expense period end is required."),
+    EXPENSE_PERIOD_BEGIN_MUST_BE_BEFORE_END("The expense period begin must be before the period end."),
     ;
 
     @Getter
