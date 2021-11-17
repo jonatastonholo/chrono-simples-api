@@ -54,8 +54,6 @@ public class StopwatchService {
                     Flux<StopwatchEventResponse> events = Flux.fromStream(Stream.generate(() -> calculateTimeElapsedInSeconds(period.getBegin())));
                     return Flux.zip(events, interval, (key, value) -> key);
                 });
-
-
     }
 
     private StopwatchEventResponse calculateTimeElapsedInSeconds(LocalDateTime begin) {

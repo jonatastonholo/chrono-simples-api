@@ -72,6 +72,7 @@ public class ProjectController {
                                 .bodyValue(projectResponse));
     }
 
+    @NotNull
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
         final var projectId = serverRequest.pathVariable("id");
         return projectService.delete(projectId)
