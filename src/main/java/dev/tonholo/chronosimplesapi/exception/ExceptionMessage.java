@@ -41,6 +41,14 @@ public enum ExceptionMessage {
     EXPENSE_PERIOD_BEGIN_REQUIRED("The expense period begin is required."),
     EXPENSE_PERIOD_END_REQUIRED("The expense period end is required."),
     EXPENSE_PERIOD_BEGIN_MUST_BE_BEFORE_END("The expense period begin must be before the period end."),
+
+    // Financial Dependent
+    FINANCIAL_DEPENDENT_NOT_FOUND("The financial dependent was not found."),
+    FINANCIAL_DEPENDENT_NAME_REQUIRED("The financial dependent name is required."),
+    FINANCIAL_DEPENDENT_IRRF_DEDUCT_REQUIRED("The financial dependent irrf deduct flag is required."),
+    FINANCIAL_DEPENDENT_PERIOD_BEGIN_REQUIRED("The financial dependent period begin is required."),
+    FINANCIAL_DEPENDENT_PERIOD_END_REQUIRED("The financial dependent period end is required."),
+    FINANCIAL_DEPENDENT_PERIOD_BEGIN_MUST_BE_BEFORE_END("The financial dependent period begin must be before the period end."),
     ;
 
     @Getter
