@@ -1,11 +1,11 @@
 package dev.tonholo.chronosimplesapi.service;
 
 import dev.tonholo.chronosimplesapi.domain.Period;
-import dev.tonholo.chronosimplesapi.domain.event.StopwatchEventResponse;
-import dev.tonholo.chronosimplesapi.domain.event.StopwatchStartEvent;
 import dev.tonholo.chronosimplesapi.exception.ApiNotFoundException;
+import dev.tonholo.chronosimplesapi.service.event.StopwatchEventResponse;
+import dev.tonholo.chronosimplesapi.service.event.StopwatchStartEvent;
 import dev.tonholo.chronosimplesapi.service.transformer.StopwatchTransformer;
-import dev.tonholo.chronosimplesapi.validator.StopwatchStartValidation;
+import dev.tonholo.chronosimplesapi.service.validation.StopwatchStartValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -51,7 +51,9 @@ public class StopwatchService {
                 .switchIfEmpty(Mono.error(new ApiNotFoundException(STOPWATCH_NOT_RUNNING_TO_LISTEN)))
                 .flatMapMany(period -> {
                     Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
-                    Flux<StopwatchEventResponse> events = Flux.fromStream(Stream.generate(() -> calculateTimeElapsedInSeconds(period.getBegin())));
+                    Flux<StopwatchEventResponse> events
+                            = Flux.fromStream(Stream.generate(()
+                                -> calculateTimeElapsedInSeconds(period.getBegin())));
                     return Flux.zip(events, interval, (key, value) -> key);
                 });
     }

@@ -1,10 +1,10 @@
 package dev.tonholo.chronosimplesapi.web.transformer;
 
 import dev.tonholo.chronosimplesapi.domain.Project;
-import dev.tonholo.chronosimplesapi.domain.event.ProjectCreationEvent;
-import dev.tonholo.chronosimplesapi.domain.event.ProjectUpdateEvent;
-import dev.tonholo.chronosimplesapi.web.model.ProjectRequest;
-import dev.tonholo.chronosimplesapi.web.model.ProjectResponse;
+import dev.tonholo.chronosimplesapi.service.event.ProjectCreationEvent;
+import dev.tonholo.chronosimplesapi.service.event.ProjectUpdateEvent;
+import dev.tonholo.chronosimplesapi.web.dto.ProjectRequest;
+import dev.tonholo.chronosimplesapi.web.dto.ProjectResponse;
 import org.springframework.stereotype.Service;
 
 @Service

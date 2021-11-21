@@ -1,8 +1,8 @@
 package dev.tonholo.chronosimplesapi.service.transformer;
 
 import dev.tonholo.chronosimplesapi.domain.Period;
-import dev.tonholo.chronosimplesapi.domain.event.PeriodCreationEvent;
-import dev.tonholo.chronosimplesapi.domain.event.PeriodUpdateEvent;
+import dev.tonholo.chronosimplesapi.service.event.PeriodCreationEvent;
+import dev.tonholo.chronosimplesapi.service.event.PeriodUpdateEvent;
 import org.springframework.stereotype.Service;
 
 @Service

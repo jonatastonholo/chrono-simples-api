@@ -1,13 +1,13 @@
 package dev.tonholo.chronosimplesapi.service;
 
 import dev.tonholo.chronosimplesapi.domain.FinancialDependent;
-import dev.tonholo.chronosimplesapi.domain.event.FinancialDependentCreationEvent;
-import dev.tonholo.chronosimplesapi.domain.event.FinancialDependentUpdateEvent;
 import dev.tonholo.chronosimplesapi.exception.ApiNotFoundException;
 import dev.tonholo.chronosimplesapi.repository.postgres.FinancialDependentRepository;
+import dev.tonholo.chronosimplesapi.service.event.FinancialDependentCreationEvent;
+import dev.tonholo.chronosimplesapi.service.event.FinancialDependentUpdateEvent;
 import dev.tonholo.chronosimplesapi.service.transformer.FinancialDependentTransformer;
-import dev.tonholo.chronosimplesapi.validator.FinancialDependentCreationEventValidation;
-import dev.tonholo.chronosimplesapi.validator.FinancialDependentUpdateEventValidation;
+import dev.tonholo.chronosimplesapi.service.validation.FinancialDependentCreationEventValidation;
+import dev.tonholo.chronosimplesapi.service.validation.FinancialDependentUpdateEventValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

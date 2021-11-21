@@ -1,7 +1,7 @@
 package dev.tonholo.chronosimplesapi.service.transformer;
 
-import dev.tonholo.chronosimplesapi.domain.event.PeriodCreationEvent;
-import dev.tonholo.chronosimplesapi.domain.event.StopwatchStartEvent;
+import dev.tonholo.chronosimplesapi.service.event.PeriodCreationEvent;
+import dev.tonholo.chronosimplesapi.service.event.StopwatchStartEvent;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

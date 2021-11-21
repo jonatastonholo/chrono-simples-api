@@ -1,26 +1,25 @@
 package dev.tonholo.chronosimplesapi.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public class ApiException extends RuntimeException {
-    private final HttpStatus httpStatus;
+    private final int httpStatus;
     private final String message;
 
     public ApiException(ExceptionMessage exceptionMessage) {
         super(exceptionMessage.getMessage());
-        httpStatus = HttpStatus.BAD_REQUEST;
+        httpStatus = 400;
         message = exceptionMessage.getMessage();
     }
 
     public ApiException(ExceptionMessage exceptionMessage, String... args) {
         super(getErrorMessageWithArgs(exceptionMessage.getMessage(), args));
-        httpStatus = HttpStatus.BAD_REQUEST;
+        httpStatus = 400;
         message = getErrorMessageWithArgs(exceptionMessage.getMessage(), args);
     }
 
-    protected ApiException(HttpStatus httpStatus, String message) {
+    protected ApiException(int httpStatus, String message) {
         super(message);
         this.httpStatus = httpStatus;
         this.message = message;

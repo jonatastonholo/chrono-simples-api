@@ -1,13 +1,13 @@
 package dev.tonholo.chronosimplesapi.service;
 
 import dev.tonholo.chronosimplesapi.domain.Expense;
-import dev.tonholo.chronosimplesapi.domain.event.ExpenseCreationEvent;
-import dev.tonholo.chronosimplesapi.domain.event.ExpenseUpdateEvent;
 import dev.tonholo.chronosimplesapi.exception.ApiNotFoundException;
 import dev.tonholo.chronosimplesapi.repository.postgres.ExpenseRepository;
+import dev.tonholo.chronosimplesapi.service.event.ExpenseCreationEvent;
+import dev.tonholo.chronosimplesapi.service.event.ExpenseUpdateEvent;
 import dev.tonholo.chronosimplesapi.service.transformer.ExpenseTransformer;
-import dev.tonholo.chronosimplesapi.validator.ExpenseCreationEventValidation;
-import dev.tonholo.chronosimplesapi.validator.ExpenseUpdateEventValidation;
+import dev.tonholo.chronosimplesapi.service.validation.ExpenseCreationEventValidation;
+import dev.tonholo.chronosimplesapi.service.validation.ExpenseUpdateEventValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
