@@ -2,8 +2,8 @@ package dev.tonholo.chronosimplesapi.web.controller;
 
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.PeriodService;
-import dev.tonholo.chronosimplesapi.web.model.PeriodRequest;
-import dev.tonholo.chronosimplesapi.web.model.PeriodResponse;
+import dev.tonholo.chronosimplesapi.web.dto.PeriodRequest;
+import dev.tonholo.chronosimplesapi.web.dto.PeriodResponse;
 import dev.tonholo.chronosimplesapi.web.transformer.PeriodWebTransformer;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

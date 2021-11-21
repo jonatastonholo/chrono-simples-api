@@ -1,9 +1,9 @@
 package dev.tonholo.chronosimplesapi.web.controller;
 
-import dev.tonholo.chronosimplesapi.domain.event.StopwatchEventResponse;
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.StopwatchService;
-import dev.tonholo.chronosimplesapi.web.model.StopwatchRequest;
+import dev.tonholo.chronosimplesapi.service.event.StopwatchResultEvent;
+import dev.tonholo.chronosimplesapi.web.dto.StopwatchRequest;
 import dev.tonholo.chronosimplesapi.web.transformer.StopwatchWebTransformer;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -48,6 +48,6 @@ public class StopwatchController {
     public Mono<ServerResponse> listen() {
         return ServerResponse.ok()
                 .contentType(MediaType.TEXT_EVENT_STREAM)
-                .body(stopwatchService.listen(), StopwatchEventResponse.class);
+                .body(stopwatchService.listen(), StopwatchResultEvent.class);
     }
 }

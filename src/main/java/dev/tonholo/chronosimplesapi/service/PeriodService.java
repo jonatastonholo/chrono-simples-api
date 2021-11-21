@@ -1,15 +1,15 @@
 package dev.tonholo.chronosimplesapi.service;
 
 import dev.tonholo.chronosimplesapi.domain.Period;
-import dev.tonholo.chronosimplesapi.domain.event.PeriodCreationEvent;
-import dev.tonholo.chronosimplesapi.domain.event.PeriodUpdateEvent;
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.exception.ApiNotFoundException;
 import dev.tonholo.chronosimplesapi.repository.postgres.PeriodRepository;
 import dev.tonholo.chronosimplesapi.repository.postgres.ProjectRepository;
+import dev.tonholo.chronosimplesapi.service.event.PeriodCreationEvent;
+import dev.tonholo.chronosimplesapi.service.event.PeriodUpdateEvent;
 import dev.tonholo.chronosimplesapi.service.transformer.PeriodTransformer;
-import dev.tonholo.chronosimplesapi.validator.PeriodCreationEventValidation;
-import dev.tonholo.chronosimplesapi.validator.PeriodUpdateEventValidation;
+import dev.tonholo.chronosimplesapi.service.validation.PeriodCreationEventValidation;
+import dev.tonholo.chronosimplesapi.service.validation.PeriodUpdateEventValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;

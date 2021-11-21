@@ -1,10 +1,10 @@
 package dev.tonholo.chronosimplesapi.web.transformer;
 
 import dev.tonholo.chronosimplesapi.domain.Expense;
-import dev.tonholo.chronosimplesapi.domain.event.ExpenseCreationEvent;
-import dev.tonholo.chronosimplesapi.domain.event.ExpenseUpdateEvent;
-import dev.tonholo.chronosimplesapi.web.model.ExpenseRequest;
-import dev.tonholo.chronosimplesapi.web.model.ExpenseResponse;
+import dev.tonholo.chronosimplesapi.service.event.ExpenseCreationEvent;
+import dev.tonholo.chronosimplesapi.service.event.ExpenseUpdateEvent;
+import dev.tonholo.chronosimplesapi.web.dto.ExpenseRequest;
+import dev.tonholo.chronosimplesapi.web.dto.ExpenseResponse;
 import org.springframework.stereotype.Service;
 
 @Service

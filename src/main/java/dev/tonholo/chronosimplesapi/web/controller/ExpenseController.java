@@ -2,10 +2,10 @@ package dev.tonholo.chronosimplesapi.web.controller;
 
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.ExpenseService;
-import dev.tonholo.chronosimplesapi.validator.ExpenseRequestValidation;
-import dev.tonholo.chronosimplesapi.web.model.ExpenseRequest;
-import dev.tonholo.chronosimplesapi.web.model.ExpenseResponse;
+import dev.tonholo.chronosimplesapi.web.dto.ExpenseRequest;
+import dev.tonholo.chronosimplesapi.web.dto.ExpenseResponse;
 import dev.tonholo.chronosimplesapi.web.transformer.ExpenseWebTransformer;
+import dev.tonholo.chronosimplesapi.web.validation.ExpenseRequestValidation;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;

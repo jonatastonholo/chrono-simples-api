@@ -1,10 +1,10 @@
 package dev.tonholo.chronosimplesapi.web.transformer;
 
 import dev.tonholo.chronosimplesapi.domain.FinancialDependent;
-import dev.tonholo.chronosimplesapi.domain.event.FinancialDependentCreationEvent;
-import dev.tonholo.chronosimplesapi.domain.event.FinancialDependentUpdateEvent;
-import dev.tonholo.chronosimplesapi.web.model.FinancialDependentRequest;
-import dev.tonholo.chronosimplesapi.web.model.FinancialDependentResponse;
+import dev.tonholo.chronosimplesapi.service.event.FinancialDependentCreationEvent;
+import dev.tonholo.chronosimplesapi.service.event.FinancialDependentUpdateEvent;
+import dev.tonholo.chronosimplesapi.web.dto.FinancialDependentRequest;
+import dev.tonholo.chronosimplesapi.web.dto.FinancialDependentResponse;
 import org.springframework.stereotype.Service;
 
 @Service

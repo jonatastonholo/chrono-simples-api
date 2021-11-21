@@ -1,11 +1,11 @@
 package dev.tonholo.chronosimplesapi.web.transformer;
 
 import dev.tonholo.chronosimplesapi.domain.Period;
-import dev.tonholo.chronosimplesapi.domain.event.PeriodUpdateEvent;
-import dev.tonholo.chronosimplesapi.domain.event.StopwatchStartEvent;
-import dev.tonholo.chronosimplesapi.web.model.PeriodRequest;
-import dev.tonholo.chronosimplesapi.web.model.StopwatchRequest;
-import dev.tonholo.chronosimplesapi.web.model.StopwatchResponse;
+import dev.tonholo.chronosimplesapi.service.event.PeriodUpdateEvent;
+import dev.tonholo.chronosimplesapi.service.event.StopwatchStartEvent;
+import dev.tonholo.chronosimplesapi.web.dto.PeriodRequest;
+import dev.tonholo.chronosimplesapi.web.dto.StopwatchRequest;
+import dev.tonholo.chronosimplesapi.web.dto.StopwatchResponse;
 import org.springframework.stereotype.Service;
 
 @Service

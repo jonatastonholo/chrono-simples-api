@@ -1,6 +1,6 @@
 package dev.tonholo.chronosimplesapi.web.router;
 
-import dev.tonholo.chronosimplesapi.security.SecurityService;
+import dev.tonholo.chronosimplesapi.web.handler.SecurityHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ import java.util.List;
 public class Router {
     private static final List<String> PUBLIC_ENDPOINTS = List.of("/health", "/chrono-simples/v1/stopwatches/listen");
 
-    private final SecurityService securityService;
+    private final SecurityHandler securityHandler;
 
     private final ExpenseRouter expenseRouter;
     private final FinancialDependentRouter financialDependentRouter;
@@ -50,7 +50,7 @@ public class Router {
 
     private ServerRequest handleSecurity(ServerRequest serverRequest) {
         if (!PUBLIC_ENDPOINTS.contains(serverRequest.uri().getPath())) {
-            securityService.authorize(serverRequest.headers());
+            securityHandler.authorize(serverRequest.headers());
         }
         return serverRequest;
     }

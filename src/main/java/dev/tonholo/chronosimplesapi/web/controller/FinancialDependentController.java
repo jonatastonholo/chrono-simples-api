@@ -2,10 +2,10 @@ package dev.tonholo.chronosimplesapi.web.controller;
 
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.FinancialDependentService;
-import dev.tonholo.chronosimplesapi.validator.FinancialDependentRequestValidation;
-import dev.tonholo.chronosimplesapi.web.model.FinancialDependentRequest;
-import dev.tonholo.chronosimplesapi.web.model.FinancialDependentResponse;
+import dev.tonholo.chronosimplesapi.web.dto.FinancialDependentRequest;
+import dev.tonholo.chronosimplesapi.web.dto.FinancialDependentResponse;
 import dev.tonholo.chronosimplesapi.web.transformer.FinancialDependentWebTransformer;
+import dev.tonholo.chronosimplesapi.web.validation.FinancialDependentRequestValidation;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
