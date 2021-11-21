@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Value
 @Builder
-public class StopwatchEventResponse {
+public class StopwatchResultEvent {
     LocalDateTime stopwatchBegin;
     Long days;
     Long hours;

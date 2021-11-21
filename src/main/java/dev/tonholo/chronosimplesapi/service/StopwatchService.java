@@ -2,7 +2,7 @@ package dev.tonholo.chronosimplesapi.service;
 
 import dev.tonholo.chronosimplesapi.domain.Period;
 import dev.tonholo.chronosimplesapi.exception.ApiNotFoundException;
-import dev.tonholo.chronosimplesapi.service.event.StopwatchEventResponse;
+import dev.tonholo.chronosimplesapi.service.event.StopwatchResultEvent;
 import dev.tonholo.chronosimplesapi.service.event.StopwatchStartEvent;
 import dev.tonholo.chronosimplesapi.service.transformer.StopwatchTransformer;
 import dev.tonholo.chronosimplesapi.service.validation.StopwatchStartValidation;
@@ -46,22 +46,22 @@ public class StopwatchService {
                 });
     }
 
-    public Flux<StopwatchEventResponse> listen() {
+    public Flux<StopwatchResultEvent> listen() {
         return periodService.findMostRecentPeriodWithoutEnd()
                 .switchIfEmpty(Mono.error(new ApiNotFoundException(STOPWATCH_NOT_RUNNING_TO_LISTEN)))
                 .flatMapMany(period -> {
                     Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
-                    Flux<StopwatchEventResponse> events
+                    Flux<StopwatchResultEvent> events
                             = Flux.fromStream(Stream.generate(()
                                 -> calculateTimeElapsedInSeconds(period.getBegin())));
                     return Flux.zip(events, interval, (key, value) -> key);
                 });
     }
 
-    private StopwatchEventResponse calculateTimeElapsedInSeconds(LocalDateTime begin) {
+    private StopwatchResultEvent calculateTimeElapsedInSeconds(LocalDateTime begin) {
         final var now = LocalDateTime.now();
         final var timeElapsedInMillis = Duration.between(begin, now).toMillis();
-        return StopwatchEventResponse.builder()
+        return StopwatchResultEvent.builder()
                 .stopwatchBegin(begin)
                 .days(TimeUnit.MILLISECONDS.toDays(timeElapsedInMillis))
                 .hours(TimeUnit.MILLISECONDS.toHours(timeElapsedInMillis) % 24)
