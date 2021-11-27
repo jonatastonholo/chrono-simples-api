@@ -38,6 +38,14 @@ public abstract class Validator {
         if (value.compareTo(BigDecimal.ZERO) <= 0) throwValidationException(exceptionMessage);
     }
 
+    public static void greaterThanOrEqual(BigDecimal value, BigDecimal greaterThanOrEqual, ExceptionMessage exceptionMessage) {
+        if (greaterThanOrEqual.compareTo(value) < 0) throwValidationException(exceptionMessage);
+    }
+
+    public static void lessThan(BigDecimal value, BigDecimal lessThan, ExceptionMessage exceptionMessage) {
+        if (lessThan.compareTo(value) >= 0) throwValidationException(exceptionMessage);
+    }
+
     private static void throwValidationException(ExceptionMessage exceptionMessage) {
         log.error("Validation Error: {}", exceptionMessage.getMessage());
         throw new ApiException(exceptionMessage);

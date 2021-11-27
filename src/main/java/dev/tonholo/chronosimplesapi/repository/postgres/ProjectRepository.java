@@ -2,6 +2,7 @@ package dev.tonholo.chronosimplesapi.repository.postgres;
 
 import dev.tonholo.chronosimplesapi.domain.Project;
 import dev.tonholo.chronosimplesapi.repository.postgres.mapper.ProjectMapper;
+import dev.tonholo.chronosimplesapi.repository.postgres.reactive.ProjectReactiveRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

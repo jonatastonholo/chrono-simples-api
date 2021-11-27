@@ -3,6 +3,12 @@ server:
   security:
     api-key: THE_API_KEY_STRING
 
+app:
+  tax:
+    deduction_amount_per_dependent: 189.59
+    default_r_factor: 0.28
+    pension_ceiling: 5645.8
+
 spring:
   r2dbc:
     url: jdbc:postgresql://localhost:5435/db_chrono_simples?verifyServerCertificate=false&useSSL=false

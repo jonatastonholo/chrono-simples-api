@@ -3,10 +3,11 @@ package dev.tonholo.chronosimplesapi.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.math.RoundingMode.HALF_UP;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PeriodTest {
 
@@ -227,5 +228,157 @@ class PeriodTest {
         var end = savedBegin.plusHours(-1);
 
         assertFalse(period.hasConcurrency(begin, end));
+    }
+
+    @Test
+    @DisplayName("Given a period with 1 second and hour value 90, calculate the second value rounded up to 0.03")
+    void getAmountTest01() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusSeconds(1);
+        final var hourValue = BigDecimal.valueOf(90.00);
+        final var amountToCheck = BigDecimal.valueOf(0.03);
+
+        final Period period = Period.builder()
+                .begin(begin)
+                .end(end)
+                .hourValue(hourValue)
+                .build();
+
+        final var amount = period.getAmount();
+
+        assertEquals(amountToCheck, amount);
+    }
+
+    @Test
+    @DisplayName("Given a period with 1 second and hour value 85, calculate the second value rounded down to 0.02")
+    void getAmountTest02() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusSeconds(1);
+        final var hourValue = BigDecimal.valueOf(85.00);
+        final var amountToCheck = BigDecimal.valueOf(0.02);
+
+        final Period period = Period.builder()
+                .begin(begin)
+                .end(end)
+                .hourValue(hourValue)
+                .build();
+
+        final var amount = period.getAmount();
+
+        assertEquals(amountToCheck, amount);
+    }
+
+    @Test
+    @DisplayName("Given a period with 1 hour and hour value 90, calculate the amount equals 90")
+    void getAmountTest03() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusHours(1);
+        final var hourValue = BigDecimal.valueOf(90.00);
+        final var amountToCheck = BigDecimal.valueOf(90.00).setScale(2, HALF_UP);
+
+        final Period period = Period.builder()
+                .begin(begin)
+                .end(end)
+                .hourValue(hourValue)
+                .build();
+
+        final var amount = period.getAmount();
+
+        assertEquals(amountToCheck, amount);
+    }
+
+    @Test
+    @DisplayName("Given a period with 1 hour and hour value 85, calculate the amount equals 85")
+    void getAmountTest04() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusHours(1);
+        final var hourValue = BigDecimal.valueOf(85.00);
+        final var amountToCheck = BigDecimal.valueOf(85.00).setScale(2, HALF_UP);
+
+        final Period period = Period.builder()
+                .begin(begin)
+                .end(end)
+                .hourValue(hourValue)
+                .build();
+
+        final var amount = period.getAmount();
+
+        assertEquals(amountToCheck, amount);
+    }
+
+    @Test
+    @DisplayName("Given a period with 1 day and hour value 85, calculate the amount equals 2040")
+    void getAmountTest05() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusDays(1);
+        final var hourValue = BigDecimal.valueOf(85.00);
+        final var amountToCheck = BigDecimal.valueOf(2040.00).setScale(2, HALF_UP);
+
+        final Period period = Period.builder()
+                .begin(begin)
+                .end(end)
+                .hourValue(hourValue)
+                .build();
+
+        final var amount = period.getAmount();
+
+        assertEquals(amountToCheck, amount);
+    }
+
+    @Test
+    @DisplayName("Given a period with 1 day and hour value 90, calculate the amount equals 2160")
+    void getAmountTest06() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusDays(1);
+        final var hourValue = BigDecimal.valueOf(90.00);
+        final var amountToCheck = BigDecimal.valueOf(2160).setScale(2, HALF_UP);
+
+        final Period period = Period.builder()
+                .begin(begin)
+                .end(end)
+                .hourValue(hourValue)
+                .build();
+
+        final var amount = period.getAmount();
+
+        assertEquals(amountToCheck, amount);
+    }
+
+    @Test
+    @DisplayName("Given a period with 1 week and hour value 90, calculate the amount equals 15120")
+    void getAmountTest07() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusWeeks(1);
+        final var hourValue = BigDecimal.valueOf(90.00);
+        final var amountToCheck = BigDecimal.valueOf(15120).setScale(2, HALF_UP);
+
+        final Period period = Period.builder()
+                .begin(begin)
+                .end(end)
+                .hourValue(hourValue)
+                .build();
+
+        final var amount = period.getAmount();
+
+        assertEquals(amountToCheck, amount);
+    }
+
+    @Test
+    @DisplayName("Given a period with 160 hours and hour value 65.63, calculate the amount equals 10500.80")
+    void getAmountTest08() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusHours(160);
+        final var hourValue = BigDecimal.valueOf(65.63);
+        final var amountToCheck = BigDecimal.valueOf(10500.80).setScale(2, HALF_UP);
+
+        final Period period = Period.builder()
+                .begin(begin)
+                .end(end)
+                .hourValue(hourValue)
+                .build();
+
+        final var amount = period.getAmount();
+
+        assertEquals(amountToCheck, amount);
     }
 }
