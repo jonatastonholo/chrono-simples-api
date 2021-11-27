@@ -2,9 +2,9 @@ package dev.tonholo.chronosimplesapi.web.controller;
 
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.ProjectService;
+import dev.tonholo.chronosimplesapi.web.converter.ProjectConverter;
 import dev.tonholo.chronosimplesapi.web.dto.ProjectRequest;
 import dev.tonholo.chronosimplesapi.web.dto.ProjectResponse;
-import dev.tonholo.chronosimplesapi.web.transformer.ProjectWebTransformer;
 import dev.tonholo.chronosimplesapi.web.validation.ProjectRequestValidation;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,7 @@ import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.BODY_REQUI
 @RequiredArgsConstructor
 public class ProjectController {
     private final ProjectRequestValidation projectRequestValidation;
-    private final ProjectWebTransformer projectWebTransformer;
+    private final ProjectConverter projectConverter;
     private final ProjectService projectService;
 
     @NotNull
@@ -30,9 +30,9 @@ public class ProjectController {
                 .bodyToMono(ProjectRequest.class)
                 .switchIfEmpty(Mono.error(() -> new ApiException(BODY_REQUIRED)))
                 .doOnNext(projectRequestValidation::validate)
-                .map(projectWebTransformer::from)
+                .map(projectConverter::from)
                 .flatMap(projectService::create)
-                .map(projectWebTransformer::from)
+                .map(projectConverter::from)
                 .flatMap(projectResponse ->
                     ServerResponse
                             .status(HttpStatus.CREATED)
@@ -42,7 +42,7 @@ public class ProjectController {
     public Mono<ServerResponse> findAll() {
         final var projectFlux = projectService
                 .findAll()
-                .map(projectWebTransformer::from);
+                .map(projectConverter::from);
 
         return projectFlux
                 .hasElements()
@@ -63,9 +63,9 @@ public class ProjectController {
         return serverRequest
                 .bodyToMono(ProjectRequest.class)
                 .switchIfEmpty(Mono.error(() -> new ApiException(BODY_REQUIRED)))
-                .map(projectRequest -> projectWebTransformer.from(projectRequest, projectId))
+                .map(projectRequest -> projectConverter.from(projectRequest, projectId))
                 .flatMap(projectService::update)
-                .map(projectWebTransformer::from)
+                .map(projectConverter::from)
                 .flatMap(projectResponse ->
                         ServerResponse
                                 .ok()
@@ -76,7 +76,7 @@ public class ProjectController {
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
         final var projectId = serverRequest.pathVariable("id");
         return projectService.delete(projectId)
-                .map(projectWebTransformer::from)
+                .map(projectConverter::from)
                 .flatMap(projectResponse ->
                         ServerResponse.ok()
                                 .bodyValue(projectResponse));

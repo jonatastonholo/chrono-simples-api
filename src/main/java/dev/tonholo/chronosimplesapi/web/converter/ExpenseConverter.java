@@ -1,4 +1,4 @@
-package dev.tonholo.chronosimplesapi.web.transformer;
+package dev.tonholo.chronosimplesapi.web.converter;
 
 import dev.tonholo.chronosimplesapi.domain.Expense;
 import dev.tonholo.chronosimplesapi.service.event.ExpenseCreationEvent;
@@ -8,7 +8,7 @@ import dev.tonholo.chronosimplesapi.web.dto.ExpenseResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExpenseWebTransformer {
+public class ExpenseConverter {
 
     public ExpenseCreationEvent from(ExpenseRequest expenseRequest) {
         return ExpenseCreationEvent.builder()

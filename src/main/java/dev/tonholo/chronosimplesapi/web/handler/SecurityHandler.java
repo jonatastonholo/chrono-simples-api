@@ -8,7 +8,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest.Headers;
 
-import static dev.tonholo.chronosimplesapi.web.domain.HttpHeaders.X_API_KEY;
+import static dev.tonholo.chronosimplesapi.web.model.HttpHeaders.X_API_KEY;
 
 @Service
 @RequiredArgsConstructor

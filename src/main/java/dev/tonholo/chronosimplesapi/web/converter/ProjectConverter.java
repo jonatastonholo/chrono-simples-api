@@ -1,4 +1,4 @@
-package dev.tonholo.chronosimplesapi.web.transformer;
+package dev.tonholo.chronosimplesapi.web.converter;
 
 import dev.tonholo.chronosimplesapi.domain.Project;
 import dev.tonholo.chronosimplesapi.service.event.ProjectCreationEvent;
@@ -8,7 +8,7 @@ import dev.tonholo.chronosimplesapi.web.dto.ProjectResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProjectWebTransformer {
+public class ProjectConverter {
 
     public ProjectCreationEvent from(ProjectRequest projectRequest) {
         return ProjectCreationEvent.builder()

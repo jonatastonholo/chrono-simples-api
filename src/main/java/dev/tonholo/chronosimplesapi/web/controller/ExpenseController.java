@@ -2,9 +2,9 @@ package dev.tonholo.chronosimplesapi.web.controller;
 
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.ExpenseService;
+import dev.tonholo.chronosimplesapi.web.converter.ExpenseConverter;
 import dev.tonholo.chronosimplesapi.web.dto.ExpenseRequest;
 import dev.tonholo.chronosimplesapi.web.dto.ExpenseResponse;
-import dev.tonholo.chronosimplesapi.web.transformer.ExpenseWebTransformer;
 import dev.tonholo.chronosimplesapi.web.validation.ExpenseRequestValidation;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,7 @@ import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.BODY_REQUI
 @RequiredArgsConstructor
 public class ExpenseController {
     private final ExpenseRequestValidation expenseRequestValidation;
-    private final ExpenseWebTransformer expenseWebTransformer;
+    private final ExpenseConverter expenseConverter;
     private final ExpenseService expenseService;
 
     @NotNull
@@ -30,9 +30,9 @@ public class ExpenseController {
                 .bodyToMono(ExpenseRequest.class)
                 .switchIfEmpty(Mono.error(() -> new ApiException(BODY_REQUIRED)))
                 .doOnNext(expenseRequestValidation::validate)
-                .map(expenseWebTransformer::from)
+                .map(expenseConverter::from)
                 .flatMap(expenseService::create)
-                .map(expenseWebTransformer::from)
+                .map(expenseConverter::from)
                 .flatMap(expenseResponse ->
                         ServerResponse
                                 .status(HttpStatus.CREATED)
@@ -42,7 +42,7 @@ public class ExpenseController {
     public Mono<ServerResponse> findAll() {
         final var expenseFlux = expenseService
                 .findAll()
-                .map(expenseWebTransformer::from);
+                .map(expenseConverter::from);
 
         return expenseFlux
                 .hasElements()
@@ -63,9 +63,9 @@ public class ExpenseController {
         return serverRequest
                 .bodyToMono(ExpenseRequest.class)
                 .switchIfEmpty(Mono.error(() -> new ApiException(BODY_REQUIRED)))
-                .map(expenseRequest -> expenseWebTransformer.from(expenseRequest, expenseId))
+                .map(expenseRequest -> expenseConverter.from(expenseRequest, expenseId))
                 .flatMap(expenseService::update)
-                .map(expenseWebTransformer::from)
+                .map(expenseConverter::from)
                 .flatMap(expenseResponse ->
                         ServerResponse
                                 .ok()
@@ -76,7 +76,7 @@ public class ExpenseController {
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
         final var expenseId = serverRequest.pathVariable("id");
         return expenseService.delete(expenseId)
-                .map(expenseWebTransformer::from)
+                .map(expenseConverter::from)
                 .flatMap(expenseResponse ->
                         ServerResponse.ok()
                                 .bodyValue(expenseResponse));

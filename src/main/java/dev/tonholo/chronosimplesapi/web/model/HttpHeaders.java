@@ -1,4 +1,4 @@
-package dev.tonholo.chronosimplesapi.web.domain;
+package dev.tonholo.chronosimplesapi.web.model;
 
 public abstract class HttpHeaders {
     private HttpHeaders() {}

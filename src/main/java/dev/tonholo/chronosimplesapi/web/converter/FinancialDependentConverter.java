@@ -1,4 +1,4 @@
-package dev.tonholo.chronosimplesapi.web.transformer;
+package dev.tonholo.chronosimplesapi.web.converter;
 
 import dev.tonholo.chronosimplesapi.domain.FinancialDependent;
 import dev.tonholo.chronosimplesapi.service.event.FinancialDependentCreationEvent;
@@ -8,7 +8,7 @@ import dev.tonholo.chronosimplesapi.web.dto.FinancialDependentResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FinancialDependentWebTransformer {
+public class FinancialDependentConverter {
 
     public FinancialDependentCreationEvent from(FinancialDependentRequest financialDependentRequest) {
         return FinancialDependentCreationEvent.builder()
