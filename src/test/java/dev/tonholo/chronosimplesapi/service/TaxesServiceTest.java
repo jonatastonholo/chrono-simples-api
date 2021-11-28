@@ -1,6 +1,7 @@
 package dev.tonholo.chronosimplesapi.service;
 
 import dev.tonholo.chronosimplesapi.domain.BaseTaxes;
+import dev.tonholo.chronosimplesapi.domain.WorkedHours;
 import dev.tonholo.chronosimplesapi.repository.postgres.FinancialDependentRepository;
 import dev.tonholo.chronosimplesapi.repository.postgres.PeriodRepository;
 import dev.tonholo.chronosimplesapi.service.event.TaxCalculationEvent;
@@ -18,10 +19,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static dev.tonholo.chronosimplesapi.mock.FinancialDependentMock.getFinancialDependentMock;
-import static dev.tonholo.chronosimplesapi.mock.InssBaseMock.getInssBaseMocks;
-import static dev.tonholo.chronosimplesapi.mock.IrrfBaseMock.getIrrfBaseMocks;
-import static dev.tonholo.chronosimplesapi.mock.PeriodMock.getPeriodMock;
+import static dev.tonholo.chronosimplesapi.mock.model.FinancialDependentMock.getFinancialDependentMock;
+import static dev.tonholo.chronosimplesapi.mock.model.InssBaseMock.getInssBaseMocks;
+import static dev.tonholo.chronosimplesapi.mock.model.IrrfBaseMock.getIrrfBaseMocks;
+import static dev.tonholo.chronosimplesapi.mock.model.PeriodMock.getPeriodMock;
 import static java.math.RoundingMode.HALF_UP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -407,6 +408,128 @@ class TaxesServiceTest {
 
         StepVerifier.create(taxesService.calculateIrrfAmount(proLabor, inssTaxAmount, financialDependentDeductionAmount))
                 .assertNext(irrfTaxAmount -> assertEquals(irrfTaxAmountToCheck, irrfTaxAmount))
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
+    @DisplayName("Given a period range with 32 hours 10 minutes and 20 seconds worked, return the Worked Hour object")
+    void calculateWorkedHoursTest01() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusHours(160);
+        final var periods = List.of(
+                getPeriodMock(90.0, begin, 8),
+                getPeriodMock(90.0, begin.plusDays(1), 8),
+                getPeriodMock(90.0, begin.plusDays(2), 8),
+                getPeriodMock(90.0, begin.plusDays(3), 8, 10, 20));
+
+        final var workedHoursToCheck = WorkedHours.builder()
+                .hours(32L)
+                .minutes(10L)
+                .seconds(20L)
+                .build();
+
+        when(periodRepository.findByDateRange(any(LocalDateTime.class), any(LocalDateTime.class)))
+                .thenReturn(Flux.fromIterable(periods));
+
+        StepVerifier.create(taxesService.calculateWorkedHours(begin, LocalDateTime.now()))
+                .assertNext(workedHours -> {
+                    assertEquals(workedHoursToCheck.getHours(), workedHours.getHours());
+                    assertEquals(workedHoursToCheck.getMinutes(), workedHours.getMinutes());
+                    assertEquals(workedHoursToCheck.getSeconds(), workedHours.getSeconds());
+                })
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
+    @DisplayName("Given a period range with 160 hours 59 minutes and 59 seconds worked, return the Worked Hour object")
+    void calculateWorkedHoursTest02() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusHours(160);
+        final var periods = List.of(
+                getPeriodMock(90.0, begin.plusDays(1), 8),
+                getPeriodMock(90.0, begin.plusDays(2), 8),
+                getPeriodMock(90.0, begin.plusDays(3), 8),
+                getPeriodMock(90.0, begin.plusDays(4), 8),
+                getPeriodMock(90.0, begin.plusDays(5), 8),
+                getPeriodMock(90.0, begin.plusDays(6), 8),
+                getPeriodMock(90.0, begin.plusDays(7), 8),
+                getPeriodMock(90.0, begin.plusDays(8), 8),
+                getPeriodMock(90.0, begin.plusDays(9), 8),
+                getPeriodMock(90.0, begin.plusDays(10), 8),
+                getPeriodMock(90.0, begin.plusDays(11), 8),
+                getPeriodMock(90.0, begin.plusDays(12), 8),
+                getPeriodMock(90.0, begin.plusDays(13), 8),
+                getPeriodMock(90.0, begin.plusDays(14), 8),
+                getPeriodMock(90.0, begin.plusDays(15), 8),
+                getPeriodMock(90.0, begin.plusDays(16), 8),
+                getPeriodMock(90.0, begin.plusDays(17), 8),
+                getPeriodMock(90.0, begin.plusDays(18), 8),
+                getPeriodMock(90.0, begin.plusDays(19), 8),
+                getPeriodMock(90.0, begin.plusDays(20), 8, 59, 59));
+
+        final var workedHoursToCheck = WorkedHours.builder()
+                .hours(160L)
+                .minutes(59L)
+                .seconds(59L)
+                .build();
+
+        when(periodRepository.findByDateRange(any(LocalDateTime.class), any(LocalDateTime.class)))
+                .thenReturn(Flux.fromIterable(periods));
+
+        StepVerifier.create(taxesService.calculateWorkedHours(begin, LocalDateTime.now()))
+                .assertNext(workedHours -> {
+                    assertEquals(workedHoursToCheck.getHours(), workedHours.getHours());
+                    assertEquals(workedHoursToCheck.getMinutes(), workedHours.getMinutes());
+                    assertEquals(workedHoursToCheck.getSeconds(), workedHours.getSeconds());
+                })
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
+    @DisplayName("Given a period range with 160 hours 59 minutes and 59 seconds worked, return the Worked Hour object")
+    void calculateWorkedHoursTest03() {
+        final var begin = LocalDateTime.of(2021, 11, 27, 12,0,0, 0);
+        final var end = begin.plusHours(160);
+        final var periods = List.of(
+                getPeriodMock(90.0, begin.plusDays(1), 8),
+                getPeriodMock(90.0, begin.plusDays(2), 8),
+                getPeriodMock(90.0, begin.plusDays(3), 8),
+                getPeriodMock(90.0, begin.plusDays(4), 8),
+                getPeriodMock(90.0, begin.plusDays(5), 8),
+                getPeriodMock(90.0, begin.plusDays(6), 8),
+                getPeriodMock(90.0, begin.plusDays(7), 8),
+                getPeriodMock(90.0, begin.plusDays(8), 8),
+                getPeriodMock(90.0, begin.plusDays(9), 8),
+                getPeriodMock(90.0, begin.plusDays(10), 8),
+                getPeriodMock(90.0, begin.plusDays(11), 8),
+                getPeriodMock(90.0, begin.plusDays(12), 8),
+                getPeriodMock(90.0, begin.plusDays(13), 8),
+                getPeriodMock(90.0, begin.plusDays(14), 8),
+                getPeriodMock(90.0, begin.plusDays(15), 8),
+                getPeriodMock(90.0, begin.plusDays(16), 8),
+                getPeriodMock(90.0, begin.plusDays(17), 8),
+                getPeriodMock(90.0, begin.plusDays(18), 8),
+                getPeriodMock(90.0, begin.plusDays(19), 8, 1, 0),
+                getPeriodMock(90.0, begin.plusDays(20), 8, 59, 59));
+
+        final var workedHoursToCheck = WorkedHours.builder()
+                .hours(161L)
+                .minutes(0L)
+                .seconds(59L)
+                .build();
+
+        when(periodRepository.findByDateRange(any(LocalDateTime.class), any(LocalDateTime.class)))
+                .thenReturn(Flux.fromIterable(periods));
+
+        StepVerifier.create(taxesService.calculateWorkedHours(begin, LocalDateTime.now()))
+                .assertNext(workedHours -> {
+                    assertEquals(workedHoursToCheck.getHours(), workedHours.getHours());
+                    assertEquals(workedHoursToCheck.getMinutes(), workedHours.getMinutes());
+                    assertEquals(workedHoursToCheck.getSeconds(), workedHours.getSeconds());
+                })
                 .expectComplete()
                 .verify();
     }

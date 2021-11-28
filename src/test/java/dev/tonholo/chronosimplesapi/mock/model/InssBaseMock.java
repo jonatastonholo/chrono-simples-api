@@ -1,4 +1,4 @@
-package dev.tonholo.chronosimplesapi.mock;
+package dev.tonholo.chronosimplesapi.mock.model;
 
 import dev.tonholo.chronosimplesapi.domain.InssBase;
 

@@ -1,13 +1,14 @@
-package dev.tonholo.chronosimplesapi.service.event;
+package dev.tonholo.chronosimplesapi.web.dto;
 
-import dev.tonholo.chronosimplesapi.domain.WorkedHours;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
-public class TaxCalculationResultEvent {
+@Value
+@Builder
+public class ReportGenerationResponse {
     LocalDateTime periodBegin;
     LocalDateTime periodEnd;
     BigDecimal last12MonthEarnings;
@@ -19,5 +20,5 @@ public class TaxCalculationResultEvent {
     BigDecimal inssAmount;
     BigDecimal irrfAmount;
     BigDecimal dasAmount;
-    WorkedHours workedHours;
+    WorkedHoursResponse workedHours;
 }

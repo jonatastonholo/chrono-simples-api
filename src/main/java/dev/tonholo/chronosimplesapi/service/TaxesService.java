@@ -2,6 +2,7 @@ package dev.tonholo.chronosimplesapi.service;
 
 import dev.tonholo.chronosimplesapi.domain.BaseTaxes;
 import dev.tonholo.chronosimplesapi.domain.FinancialDependent;
+import dev.tonholo.chronosimplesapi.domain.WorkedHours;
 import dev.tonholo.chronosimplesapi.exception.ApiInternalException;
 import dev.tonholo.chronosimplesapi.repository.postgres.FinancialDependentRepository;
 import dev.tonholo.chronosimplesapi.repository.postgres.PeriodRepository;
@@ -15,8 +16,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static java.math.RoundingMode.HALF_UP;
 
@@ -34,6 +37,8 @@ public class TaxesService {
     public Mono<TaxCalculationResultEvent> calculate(TaxCalculationEvent taxCalculationEvent) {
         log.info("Calculating taxes -> {}", taxCalculationEvent);
         final TaxCalculationResultEvent taxCalculationResultEvent = new TaxCalculationResultEvent();
+        taxCalculationResultEvent.setPeriodBegin(taxCalculationEvent.getPeriodBegin());
+        taxCalculationResultEvent.setPeriodEnd(taxCalculationEvent.getPeriodEnd());
 
         return Mono.just(taxCalculationEvent)
                 .doOnNext(taxCalculationEventValidation::validate)
@@ -72,8 +77,12 @@ public class TaxesService {
                     taxCalculationResultEvent.setLast12MonthEarnings(last12MonthEarnings);
                     return calculateDasAmount(last12MonthEarnings, taxCalculationResultEvent.getPeriodEarnings());
                 })
-                .map(dasTaxAmount -> {
+                .flatMap(dasTaxAmount -> {
                     taxCalculationResultEvent.setDasAmount(dasTaxAmount);
+                    return calculateWorkedHours(taxCalculationEvent.getPeriodBegin(), taxCalculationEvent.getPeriodEnd());
+                })
+                .map(workedHours -> {
+                    taxCalculationResultEvent.setWorkedHours(workedHours);
                     return taxCalculationResultEvent;
                 });
     }
@@ -197,5 +206,24 @@ public class TaxesService {
                 .multiply(aliquot)
                 .subtract(dasDeduction)
                 .setScale(2, HALF_UP));
+    }
+
+    public Mono<WorkedHours> calculateWorkedHours(LocalDateTime begin, LocalDateTime end) {
+        log.info("Calculating period earnings");
+        return periodRepository.findByDateRange(begin, end)
+                .reduce(0L, (accumulator, period)
+                        -> accumulator + Duration.between(period.getBegin(), period.getEnd()).toMillis())
+                .map(timeElapsedInMillis -> {
+                    final var hours = TimeUnit.MILLISECONDS.toHours(timeElapsedInMillis);
+                    final var minutes = TimeUnit.MILLISECONDS.toMinutes(timeElapsedInMillis) % 60;
+                    final var seconds = TimeUnit.MILLISECONDS.toSeconds(timeElapsedInMillis)  % 60;
+
+                    return WorkedHours.builder()
+                            .hours(hours)
+                            .minutes(minutes)
+                            .seconds(seconds)
+                            .timeElapsedInMillis(timeElapsedInMillis)
+                            .build();
+                });
     }
 }

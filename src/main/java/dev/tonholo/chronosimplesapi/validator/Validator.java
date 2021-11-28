@@ -39,11 +39,11 @@ public abstract class Validator {
     }
 
     public static void greaterThanOrEqual(BigDecimal value, BigDecimal greaterThanOrEqual, ExceptionMessage exceptionMessage) {
-        if (greaterThanOrEqual.compareTo(value) < 0) throwValidationException(exceptionMessage);
+        if (greaterThanOrEqual.compareTo(value) > 0) throwValidationException(exceptionMessage);
     }
 
     public static void lessThan(BigDecimal value, BigDecimal lessThan, ExceptionMessage exceptionMessage) {
-        if (lessThan.compareTo(value) >= 0) throwValidationException(exceptionMessage);
+        if (lessThan.compareTo(value) < 0) throwValidationException(exceptionMessage);
     }
 
     private static void throwValidationException(ExceptionMessage exceptionMessage) {
