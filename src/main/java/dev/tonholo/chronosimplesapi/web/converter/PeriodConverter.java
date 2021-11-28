@@ -1,21 +1,22 @@
-package dev.tonholo.chronosimplesapi.web.transformer;
+package dev.tonholo.chronosimplesapi.web.converter;
 
 import dev.tonholo.chronosimplesapi.domain.Period;
+import dev.tonholo.chronosimplesapi.service.event.PeriodCreationEvent;
 import dev.tonholo.chronosimplesapi.service.event.PeriodUpdateEvent;
-import dev.tonholo.chronosimplesapi.service.event.StopwatchStartEvent;
 import dev.tonholo.chronosimplesapi.web.dto.PeriodRequest;
-import dev.tonholo.chronosimplesapi.web.dto.StopwatchRequest;
-import dev.tonholo.chronosimplesapi.web.dto.StopwatchResponse;
+import dev.tonholo.chronosimplesapi.web.dto.PeriodResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StopwatchWebTransformer {
+public class PeriodConverter {
 
-    public StopwatchStartEvent from(StopwatchRequest stopwatchRequest) {
-        return StopwatchStartEvent.builder()
-                .projectId(stopwatchRequest.getProjectId())
-                .description(stopwatchRequest.getDescription())
-                .hourValue(stopwatchRequest.getHourValue())
+    public PeriodCreationEvent from(PeriodRequest periodRequest) {
+        return PeriodCreationEvent.builder()
+                .projectId(periodRequest.getProjectId())
+                .description(periodRequest.getDescription())
+                .hourValue(periodRequest.getHourValue())
+                .begin(periodRequest.getBegin())
+                .end(periodRequest.getEnd())
                 .build();
     }
 
@@ -30,9 +31,9 @@ public class StopwatchWebTransformer {
                 .build();
     }
 
-    public StopwatchResponse from(Period period) {
-        return StopwatchResponse.builder()
-                .periodId(period.getId())
+    public PeriodResponse from(Period period) {
+        return PeriodResponse.builder()
+                .id(period.getId())
                 .projectId(period.getProjectId())
                 .description(period.getDescription())
                 .hourValue(period.getHourValue())

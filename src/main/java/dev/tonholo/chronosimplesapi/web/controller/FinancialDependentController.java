@@ -2,9 +2,9 @@ package dev.tonholo.chronosimplesapi.web.controller;
 
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.FinancialDependentService;
+import dev.tonholo.chronosimplesapi.web.converter.FinancialDependentConverter;
 import dev.tonholo.chronosimplesapi.web.dto.FinancialDependentRequest;
 import dev.tonholo.chronosimplesapi.web.dto.FinancialDependentResponse;
-import dev.tonholo.chronosimplesapi.web.transformer.FinancialDependentWebTransformer;
 import dev.tonholo.chronosimplesapi.web.validation.FinancialDependentRequestValidation;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,7 @@ import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.BODY_REQUI
 @RequiredArgsConstructor
 public class FinancialDependentController {
     private final FinancialDependentRequestValidation financialDependentRequestValidation;
-    private final FinancialDependentWebTransformer financialDependentWebTransformer;
+    private final FinancialDependentConverter financialDependentConverter;
     private final FinancialDependentService financialDependentService;
 
     @NotNull
@@ -30,9 +30,9 @@ public class FinancialDependentController {
                 .bodyToMono(FinancialDependentRequest.class)
                 .switchIfEmpty(Mono.error(() -> new ApiException(BODY_REQUIRED)))
                 .doOnNext(financialDependentRequestValidation::validate)
-                .map(financialDependentWebTransformer::from)
+                .map(financialDependentConverter::from)
                 .flatMap(financialDependentService::create)
-                .map(financialDependentWebTransformer::from)
+                .map(financialDependentConverter::from)
                 .flatMap(financialDependentResponse ->
                         ServerResponse
                                 .status(HttpStatus.CREATED)
@@ -42,7 +42,7 @@ public class FinancialDependentController {
     public Mono<ServerResponse> findAll() {
         final var financialDependentFlux = financialDependentService
                 .findAll()
-                .map(financialDependentWebTransformer::from);
+                .map(financialDependentConverter::from);
 
         return financialDependentFlux
                 .hasElements()
@@ -63,9 +63,9 @@ public class FinancialDependentController {
         return serverRequest
                 .bodyToMono(FinancialDependentRequest.class)
                 .switchIfEmpty(Mono.error(() -> new ApiException(BODY_REQUIRED)))
-                .map(financialDependentRequest -> financialDependentWebTransformer.from(financialDependentRequest, financialDependentId))
+                .map(financialDependentRequest -> financialDependentConverter.from(financialDependentRequest, financialDependentId))
                 .flatMap(financialDependentService::update)
-                .map(financialDependentWebTransformer::from)
+                .map(financialDependentConverter::from)
                 .flatMap(financialDependentResponse ->
                         ServerResponse
                                 .ok()
@@ -76,7 +76,7 @@ public class FinancialDependentController {
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
         final var financialDependentId = serverRequest.pathVariable("id");
         return financialDependentService.delete(financialDependentId)
-                .map(financialDependentWebTransformer::from)
+                .map(financialDependentConverter::from)
                 .flatMap(financialDependentResponse ->
                         ServerResponse.ok()
                                 .bodyValue(financialDependentResponse));

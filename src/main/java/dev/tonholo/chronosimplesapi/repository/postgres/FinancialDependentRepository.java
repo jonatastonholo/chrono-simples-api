@@ -2,12 +2,14 @@ package dev.tonholo.chronosimplesapi.repository.postgres;
 
 import dev.tonholo.chronosimplesapi.domain.FinancialDependent;
 import dev.tonholo.chronosimplesapi.repository.postgres.mapper.FinancialDependentMapper;
+import dev.tonholo.chronosimplesapi.repository.postgres.reactive.FinancialDependentReactiveRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -47,6 +49,16 @@ public class FinancialDependentRepository {
                     return financialDependentEntity;
                 })
                 .flatMap(financialDependentReactiveRepository::save)
+                .map(financialDependentMapper::from);
+    }
+
+    public Mono<Integer> countByPeriodRange(LocalDate periodBegin, LocalDate periodEnd) {
+        return financialDependentReactiveRepository.countByPeriodRange(periodBegin, periodEnd);
+    }
+
+    public Flux<FinancialDependent> findByPeriodRange(LocalDate periodBegin, LocalDate periodEnd) {
+        return financialDependentReactiveRepository
+                .findByPeriodRange(periodBegin, periodEnd)
                 .map(financialDependentMapper::from);
     }
 }

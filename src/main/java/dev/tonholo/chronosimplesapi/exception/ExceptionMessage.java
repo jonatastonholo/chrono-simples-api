@@ -49,6 +49,13 @@ public enum ExceptionMessage {
     FINANCIAL_DEPENDENT_PERIOD_BEGIN_REQUIRED("The financial dependent period begin is required."),
     FINANCIAL_DEPENDENT_PERIOD_END_REQUIRED("The financial dependent period end is required."),
     FINANCIAL_DEPENDENT_PERIOD_BEGIN_MUST_BE_BEFORE_END("The financial dependent period begin must be before the period end."),
+
+    // Tax Calculation
+    TAX_CALCULATION_PERIOD_BEGIN_REQUIRED("The period begin is required."),
+    TAX_CALCULATION_PERIOD_END_REQUIRED("The period end is required."),
+    TAX_CALCULATION_PERIOD_BEGIN_MUST_BE_BEFORE_END("The Tax Calculation period begin must be before the period end."),
+    TAX_CALCULATION_R_FACTOR_BIGGER_THAN_28_PERCENT("The R factor must be greater than or equal 28%."),
+    TAX_CALCULATION_R_FACTOR_LESS_THAN_100_PERCENT("The R factor must be less than or equal 100%."),
     ;
 
     @Getter

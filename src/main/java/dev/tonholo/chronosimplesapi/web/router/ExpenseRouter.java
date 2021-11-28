@@ -1,7 +1,7 @@
 package dev.tonholo.chronosimplesapi.web.router;
 
 import dev.tonholo.chronosimplesapi.web.controller.ExpenseController;
-import dev.tonholo.chronosimplesapi.web.domain.Routes;
+import dev.tonholo.chronosimplesapi.web.model.Routes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;

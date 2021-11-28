@@ -4,7 +4,10 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
+
+import static java.math.RoundingMode.HALF_UP;
 
 @Data
 @Builder
@@ -62,5 +65,14 @@ public class Period {
         createdAt = (createdAt == null) ? source.createdAt : createdAt;
         updatedAt = (updatedAt == null) ? source.updatedAt : updatedAt;
         return this;
+    }
+
+    public BigDecimal getAmount() {
+        final BigDecimal secondValue = hourValue.divide(BigDecimal.valueOf(3600), 8, HALF_UP);
+        final long periodDurationSeconds = Duration.between(begin, end)
+                .toSeconds();
+        return secondValue
+                .multiply(BigDecimal.valueOf(periodDurationSeconds))
+                .setScale(2, HALF_UP);
     }
 }

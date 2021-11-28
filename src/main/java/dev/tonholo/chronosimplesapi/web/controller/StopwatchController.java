@@ -3,8 +3,8 @@ package dev.tonholo.chronosimplesapi.web.controller;
 import dev.tonholo.chronosimplesapi.exception.ApiException;
 import dev.tonholo.chronosimplesapi.service.StopwatchService;
 import dev.tonholo.chronosimplesapi.service.event.StopwatchResultEvent;
+import dev.tonholo.chronosimplesapi.web.converter.StopwatchConverter;
 import dev.tonholo.chronosimplesapi.web.dto.StopwatchRequest;
-import dev.tonholo.chronosimplesapi.web.transformer.StopwatchWebTransformer;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
@@ -20,16 +20,16 @@ import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.BODY_REQUI
 @RequiredArgsConstructor
 public class StopwatchController {
     private final StopwatchService stopwatchService;
-    private final StopwatchWebTransformer stopwatchWebTransformer;
+    private final StopwatchConverter stopwatchConverter;
 
     @NotNull
     public Mono<ServerResponse> start(ServerRequest serverRequest) {
         return serverRequest
                 .bodyToMono(StopwatchRequest.class)
                 .switchIfEmpty(Mono.error(() -> new ApiException(BODY_REQUIRED)))
-                .map(stopwatchWebTransformer::from)
+                .map(stopwatchConverter::from)
                 .flatMap(stopwatchService::start)
-                .map(stopwatchWebTransformer::from)
+                .map(stopwatchConverter::from)
                 .flatMap(periodResponse ->
                         ServerResponse
                                 .status(HttpStatus.CREATED)
@@ -39,7 +39,7 @@ public class StopwatchController {
     @NotNull
     public Mono<ServerResponse> stop(ServerRequest serverRequest) {
         return stopwatchService.stop()
-                .map(stopwatchWebTransformer::from)
+                .map(stopwatchConverter::from)
                 .flatMap(stopwatchResponse ->
                         ServerResponse.ok()
                                 .bodyValue(stopwatchResponse));

@@ -2,6 +2,7 @@ package dev.tonholo.chronosimplesapi.repository.postgres;
 
 import dev.tonholo.chronosimplesapi.domain.Period;
 import dev.tonholo.chronosimplesapi.repository.postgres.mapper.PeriodMapper;
+import dev.tonholo.chronosimplesapi.repository.postgres.reactive.PeriodReactiveRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,12 @@ public class PeriodRepository {
         log.debug("Saving period -> {}", period);
         return Mono.just(periodMapper.from(period))
                 .flatMap(periodReactiveRepository::save)
+                .map(periodMapper::from);
+    }
+
+    public Flux<Period> findByDateRange(LocalDateTime begin, LocalDateTime end) {
+        return periodReactiveRepository
+                .findByDateRange(begin, end)
                 .map(periodMapper::from);
     }
 
