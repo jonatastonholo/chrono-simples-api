@@ -53,15 +53,17 @@ public class StopwatchService {
                     Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
                     Flux<StopwatchResultEvent> events
                             = Flux.fromStream(Stream.generate(()
-                                -> calculateTimeElapsedInSeconds(period.getBegin())));
+                                -> calculateTimeElapsedInSeconds(period)));
                     return Flux.zip(events, interval, (key, value) -> key);
                 });
     }
 
-    private StopwatchResultEvent calculateTimeElapsedInSeconds(LocalDateTime begin) {
+    private StopwatchResultEvent calculateTimeElapsedInSeconds(Period period) {
+        final var begin = period.getBegin();
         final var now = LocalDateTime.now();
         final var timeElapsedInMillis = Duration.between(begin, now).toMillis();
         return StopwatchResultEvent.builder()
+                .projectId(period.getProjectId())
                 .stopwatchBegin(begin)
                 .days(TimeUnit.MILLISECONDS.toDays(timeElapsedInMillis))
                 .hours(TimeUnit.MILLISECONDS.toHours(timeElapsedInMillis) % 24)
