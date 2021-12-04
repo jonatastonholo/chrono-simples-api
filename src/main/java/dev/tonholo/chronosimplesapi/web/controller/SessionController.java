@@ -27,9 +27,15 @@ public class SessionController {
                 .bodyToMono(SessionCreationRequest.class)
                 .switchIfEmpty(Mono.error(new ApiException(BODY_REQUIRED)))
                 .map(sessionCreationRequest -> {
-                    log.info("Creationg session for {}", sessionCreationRequest.getEmail());
+
+                    if (!sessionCreationRequest.getEmail().equals("jonatas@tonholo.dev")
+                        || !sessionCreationRequest.getPassword().equals("123456")) {
+                        sessionResponse = null;
+                        throw new UnsupportedOperationException();
+                    }
+                    log.info("Creating session for {}", sessionCreationRequest.getEmail());
                     sessionResponse = SessionResponse.builder()
-                            .email("jonatas@test.com")
+                            .email("jonatas@tonholo.dev")
                             .name("Jonatas")
                             .build();
                     return sessionResponse;

@@ -9,12 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import static dev.tonholo.chronosimplesapi.exception.ExceptionMessage.BODY_REQUIRED;
+import static org.springframework.http.MediaType.TEXT_EVENT_STREAM;
 
 @Configuration
 @RequiredArgsConstructor
@@ -45,9 +46,10 @@ public class StopwatchController {
                                 .bodyValue(stopwatchResponse));
     }
 
+    @CrossOrigin(allowedHeaders = "*")
     public Mono<ServerResponse> listen() {
         return ServerResponse.ok()
-                .contentType(MediaType.TEXT_EVENT_STREAM)
+                .contentType(TEXT_EVENT_STREAM)
                 .body(stopwatchService.listen(), StopwatchResultEvent.class);
     }
 }
