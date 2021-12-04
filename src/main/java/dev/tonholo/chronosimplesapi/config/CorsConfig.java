@@ -7,14 +7,25 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 @Configuration
 @EnableWebFlux
-public class CorsGlobalConfiguration implements WebFluxConfigurer {
+public class CorsConfig implements WebFluxConfigurer {
+    private static final String[] ALLOWED_METHODS = {
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "TRACE",
+            "OPTIONS",
+            "PATCH",
+            "CONNECT",
+            "HEAD"
+    };
 
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry
                 .addMapping("/**")
                 .allowedOrigins("*")
-                .allowedMethods("*")
+                .allowedMethods(ALLOWED_METHODS)
                 .allowedHeaders("*")
                 .allowedOriginPatterns("*")
                 .maxAge(3600);
