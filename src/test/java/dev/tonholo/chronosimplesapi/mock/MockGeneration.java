@@ -67,6 +67,7 @@ class MockGeneration {
                     .begin(dayBegin)
                     .end(dayEnd)
                     .hourValue(project.getHourValue())
+                    .currency(project.getCurrencyCode())
                     .build();
 
             periodService.create(periodCreationEvent)

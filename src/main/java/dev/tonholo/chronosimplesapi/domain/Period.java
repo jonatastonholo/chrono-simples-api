@@ -1,5 +1,6 @@
 package dev.tonholo.chronosimplesapi.domain;
 
+import dev.tonholo.chronosimplesapi.domain.type.CurrencyCodeType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,7 +15,9 @@ import static java.math.RoundingMode.HALF_UP;
 public class Period {
     private String id;
     private String projectId;
+    private Project project;
     private BigDecimal hourValue;
+    private CurrencyCodeType currency;
     private LocalDateTime begin;
     private LocalDateTime end;
     private String description;
@@ -59,6 +62,7 @@ public class Period {
         id = (id == null) ? source.id : id;
         projectId = (projectId == null) ? source.projectId : projectId;
         hourValue = (hourValue == null) ? source.hourValue : hourValue;
+        currency = (currency == null) ? source.currency : currency;
         begin = (begin == null) ? source.begin : begin;
         end = (end == null) ? source.end : end;
         description = (description == null) ? source.description : description;

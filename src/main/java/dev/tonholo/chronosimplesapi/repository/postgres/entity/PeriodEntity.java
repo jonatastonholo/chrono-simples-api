@@ -1,5 +1,6 @@
 package dev.tonholo.chronosimplesapi.repository.postgres.entity;
 
+import dev.tonholo.chronosimplesapi.domain.type.CurrencyCodeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class PeriodEntity {
     private LocalDateTime periodBegin;
     private LocalDateTime periodEnd;
     private BigDecimal hourValue;
+    private CurrencyCodeType currency;
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

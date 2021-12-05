@@ -47,6 +47,9 @@ public class PeriodService {
                     if (Objects.isNull(period.getHourValue())) {
                         period.setHourValue(project.getHourValue());
                     }
+                    if (Objects.isNull(period.getCurrency())) {
+                        period.setCurrency(project.getCurrencyCode());
+                    }
                     if (Objects.isNull(period.getBegin())) {
                         period.setBegin(LocalDateTime.now());
                         log.info("Setting begin time to {}", period.getBegin());
@@ -54,7 +57,14 @@ public class PeriodService {
                     return period;
                 })
                 .flatMap(this::checkIfPeriodHaveConcurrency)
-                .flatMap(periodRepository::save);
+                .flatMap(periodRepository::save)
+                .flatMap(periodSaved ->
+                        projectRepository.findById(periodSaved.getProjectId())
+                                .map(project -> {
+                                    periodSaved.setProject(project);
+                                    return periodSaved;
+                                })
+                );
     }
 
     public Flux<Period> findAll() {
@@ -84,13 +94,21 @@ public class PeriodService {
                                     return Mono.just(periodToUpdate.completeFrom(periodSaved));
                                 }))
                 .flatMap(this::checkIfPeriodHaveConcurrency)
-                .flatMap(periodRepository::save);
+                .flatMap(periodRepository::save)
+                .flatMap(periodSaved ->
+                        projectRepository.findById(periodSaved.getProjectId())
+                                .map(project -> {
+                                    periodSaved.setProject(project);
+                                    return periodSaved;
+                                })
+                        );
     }
 
     @NotNull
     private Mono<Period> checkIfPeriodHaveConcurrency(Period toVerify) {
         log.info("Checking if the period have concurrency. Begin: {} | End: {}", toVerify.getBegin(), toVerify.getEnd());
-        return periodRepository.hasConcurrency(toVerify.getBegin(), toVerify.getEnd())
+        return periodRepository
+                .hasConcurrency(toVerify)
                 .map(hasConcurrency -> {
                     if (Boolean.TRUE.equals(hasConcurrency)) {
                         throw new ApiException(PERIOD_IS_CONCOMITANT);
@@ -99,10 +117,11 @@ public class PeriodService {
                 });
     }
 
-    public Mono<Period> delete(String periodId) {
+    public Mono<Boolean> delete(String periodId) {
         return periodRepository.findById(periodId)
                 .switchIfEmpty(Mono.error(new ApiNotFoundException(PERIOD_NOT_FOUND)))
-                .flatMap(periodRepository::delete);
+                .flatMap(periodRepository::delete)
+                .map(unused -> true);
     }
 
     public Mono<Period> save(Period period) {
