@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Slf4j
 public class PeriodRepository {
     private final PeriodReactiveRepository periodReactiveRepository;
+    private final ProjectRepository projectRepository;
     private final PeriodMapper periodMapper;
 
     public Mono<Period> save(Period period) {
@@ -28,26 +29,46 @@ public class PeriodRepository {
     public Flux<Period> findByDateRange(LocalDateTime begin, LocalDateTime end) {
         return periodReactiveRepository
                 .findByDateRange(begin, end)
-                .map(periodMapper::from);
+                .map(periodMapper::from)
+                .flatMap(period ->
+                    projectRepository.findById(period.getProjectId())
+                            .map(project -> {
+                                period.setProject(project);
+                                return period;
+                            }));
     }
 
     public Flux<Period> findAll() {
         return periodReactiveRepository
                 .findAllNotDeleted()
-                .map(periodMapper::from);
+                .map(periodMapper::from)
+                .flatMap(period ->
+                        projectRepository.findById(period.getProjectId())
+                                .map(project -> {
+                                    period.setProject(project);
+                                    return period;
+                                }));
     }
 
-    public Mono<Boolean> hasConcurrency(LocalDateTime begin, LocalDateTime end) {
+    public Mono<Boolean> hasConcurrency(Period toVerify) {
         return findAll()
                 .filter(periodSaved
-                        -> periodSaved.hasConcurrency(begin, end))
+                        -> periodSaved
+                        .hasConcurrency(toVerify.getBegin(), toVerify.getEnd())
+                            && !toVerify.getId().equals(periodSaved.getId()))
                 .hasElements();
     }
 
     public Mono<Period> findById(String periodId) {
         return periodReactiveRepository
                 .findByIdNotDeleted(periodId)
-                .map(periodMapper::from);
+                .map(periodMapper::from)
+                .flatMap(period ->
+                        projectRepository.findById(period.getProjectId())
+                                .map(project -> {
+                                    period.setProject(project);
+                                    return period;
+                                }));
     }
 
     public Mono<Period> delete(Period period) {
@@ -65,6 +86,11 @@ public class PeriodRepository {
 
     public Mono<Period> findMostRecentPeriodWithoutEnd() {
         return periodReactiveRepository.findMostRecentPeriodWithoutEnd()
-                .map(periodMapper::from);
+                .map(periodMapper::from).flatMap(period ->
+                        projectRepository.findById(period.getProjectId())
+                                .map(project -> {
+                                    period.setProject(project);
+                                    return period;
+                                }));
     }
 }

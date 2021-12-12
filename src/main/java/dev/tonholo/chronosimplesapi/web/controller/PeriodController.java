@@ -73,9 +73,7 @@ public class PeriodController {
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
         final var periodId = serverRequest.pathVariable("id");
         return periodService.delete(periodId)
-                .map(periodConverter::from)
-                .flatMap(periodResponse ->
-                        ServerResponse.ok()
-                                .bodyValue(periodResponse));
+                .flatMap(unused ->
+                        ServerResponse.noContent().build());
     }
 }

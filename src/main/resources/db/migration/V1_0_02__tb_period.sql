@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS db_chrono_simples.tb_period
     period_begin    TIMESTAMP(6) NOT NULL DEFAULT now(),
     period_end      TIMESTAMP(6) NULL DEFAULT NULL,
     hour_value      DECIMAL(12,2) NOT NULL,
+    currency        VARCHAR(255) NOT NULL,
     description     VARCHAR(255) NULL DEFAULT NULL,
     created_at      TIMESTAMP(6) NOT NULL DEFAULT now(),
     updated_at      TIMESTAMP(6) NOT NULL DEFAULT now(),

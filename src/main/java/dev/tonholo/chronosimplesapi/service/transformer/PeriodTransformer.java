@@ -12,6 +12,7 @@ public class PeriodTransformer {
         return Period.builder()
                 .projectId(periodCreationEvent.getProjectId())
                 .hourValue(periodCreationEvent.getHourValue())
+                .currency(periodCreationEvent.getCurrency())
                 .begin(periodCreationEvent.getBegin())
                 .end(periodCreationEvent.getEnd())
                 .description(periodCreationEvent.getDescription())
