@@ -18,4 +18,12 @@ public enum ExpenseType {
             throw new ApiException(ExceptionMessage.EXPENSE_TYPE_INVALID, Arrays.toString(ExpenseType.values()));
         }
     }
+
+    public boolean isPersonal() {
+        return PERSONAL.equals(this);
+    }
+
+    public boolean isCompany() {
+        return COMPANY.equals(this);
+    }
 }
