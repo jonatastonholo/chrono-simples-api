@@ -50,4 +50,8 @@ public class ExpenseRepository {
                 .flatMap(expenseReactiveRepository::save)
                 .map(expenseMapper::from);
     }
+
+    public Flux<Expense> findByDateRange(LocalDateTime periodBegin, LocalDateTime periodEnd) {
+        return expenseReactiveRepository.findByDateRange(periodBegin, periodEnd);
+    }
 }

@@ -21,6 +21,7 @@ public class ExpenseTransformer {
     public Expense from(ExpenseUpdateEvent expenseUpdateEvent) {
         return Expense.builder()
                 .id(expenseUpdateEvent.getId())
+                .description(expenseUpdateEvent.getDescription())
                 .value(expenseUpdateEvent.getValue())
                 .type(expenseUpdateEvent.getType())
                 .periodBegin(expenseUpdateEvent.getPeriodBegin())

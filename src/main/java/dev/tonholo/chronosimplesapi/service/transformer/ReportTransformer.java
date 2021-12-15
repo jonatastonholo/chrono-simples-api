@@ -23,14 +23,21 @@ public class ReportTransformer {
                 .periodEnd(taxCalculationResultEvent.getPeriodEnd())
                 .last12MonthEarnings(taxCalculationResultEvent.getLast12MonthEarnings())
                 .periodEarnings(taxCalculationResultEvent.getPeriodEarnings())
+                .liquidPeriodEarnings(taxCalculationResultEvent.getLiquidPeriodEarnings())
+                .profitToWithdrawal(taxCalculationResultEvent.getProfitToWithdrawal())
                 .baseProLabor(taxCalculationResultEvent.getBaseProLabor())
+                .liquidProLabor(taxCalculationResultEvent.getLiquidProLabor())
+                .proLaborToWithdrawal(taxCalculationResultEvent.getProLaborToWithdrawal())
                 .rFactor(taxCalculationResultEvent.getRFactor())
                 .financialDependents(taxCalculationResultEvent.getFinancialDependents())
                 .financialDependentsDeduction(taxCalculationResultEvent.getFinancialDependentsDeduction())
                 .inssAmount(taxCalculationResultEvent.getInssAmount())
                 .irrfAmount(taxCalculationResultEvent.getIrrfAmount())
                 .dasAmount(taxCalculationResultEvent.getDasAmount())
+                .totalAmountToWithdrawal(taxCalculationResultEvent.getTotalAmountToWithdrawal())
+                .amountToKeep(taxCalculationResultEvent.getAmountToKeep())
                 .workedHours(taxCalculationResultEvent.getWorkedHours())
+                .expenses(taxCalculationResultEvent.getExpenses())
                 .build();
     }
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Data
@@ -15,8 +15,8 @@ import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportGenerationRequest {
-    private LocalDateTime periodBegin;
-    private LocalDateTime periodEnd;
+    private LocalDate periodBegin;
+    private LocalDate periodEnd;
 
     @JsonDeserialize(as = BigDecimal.class)
     private BigDecimal rFactor;
