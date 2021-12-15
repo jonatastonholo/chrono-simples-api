@@ -10,6 +10,7 @@ import dev.tonholo.chronosimplesapi.web.dto.ReportGenerationResponse;
 import dev.tonholo.chronosimplesapi.web.dto.WorkedHoursResponse;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,8 +19,8 @@ public class ReportConverter {
 
     public ReportGenerationEvent from(ReportGenerationRequest reportGenerationRequest) {
         return ReportGenerationEvent.builder()
-                .periodBegin(reportGenerationRequest.getPeriodBegin())
-                .periodEnd(reportGenerationRequest.getPeriodEnd())
+                .periodBegin(LocalDateTime.from(reportGenerationRequest.getPeriodBegin().atTime(0,0,0,0)))
+                .periodEnd(LocalDateTime.from(reportGenerationRequest.getPeriodEnd().atTime(23,59,59)))
                 .rFactor(reportGenerationRequest.getRFactor().orElse(null))
                 .build();
     }
