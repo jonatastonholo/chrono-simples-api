@@ -1,7 +1,6 @@
 package dev.tonholo.chronosimplesapi.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import dev.tonholo.chronosimplesapi.domain.type.ExpenseType;
 import lombok.Builder;
 import lombok.Value;
 
@@ -18,7 +17,7 @@ public class ExpenseResponse {
     String id;
     String description;
     BigDecimal value;
-    ExpenseType type;
+    ExpenseTypeResponse type;
     @JsonFormat(pattern=DATE_FORMAT)
     LocalDate periodBegin;
     @JsonFormat(pattern=DATE_FORMAT)
