@@ -10,6 +10,8 @@ app:
     pension_ceiling: 5645.8
 
 spring:
+  main:
+    web-application-type: reactive
   r2dbc:
     url: jdbc:postgresql://localhost:5435/db_chrono_simples?verifyServerCertificate=false&useSSL=false
     username: $POSTGRES_USER
@@ -26,6 +28,8 @@ logging:
         openfinance:
           pluggyconnectorapi: DEBUG
 
+    web: ERROR
+
     io:
       r2dbc: ERROR
       netty: ERROR
@@ -40,3 +44,18 @@ logging:
         r2dbc: ERROR
         data:
           r2dbc: ERROR
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+        exclude: info, metrics
+  endpoint:
+    health:
+      show-details: never
+
+  metrics:
+    export:
+      atlas:
+        enabled: false

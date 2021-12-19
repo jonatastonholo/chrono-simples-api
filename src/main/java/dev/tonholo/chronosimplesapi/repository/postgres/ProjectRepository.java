@@ -26,7 +26,8 @@ public class ProjectRepository {
     }
 
     public Mono<Project> findById(String projectId) {
-        return projectReactiveRepository.findById(projectId)
+        return projectReactiveRepository
+                .findById(projectId)
                 .filter(projectEntity -> !projectEntity.isDeleted())
                 .map(projectMapper::from);
     }
