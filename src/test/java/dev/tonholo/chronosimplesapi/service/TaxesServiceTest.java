@@ -2,6 +2,7 @@ package dev.tonholo.chronosimplesapi.service;
 
 import dev.tonholo.chronosimplesapi.domain.BaseTaxes;
 import dev.tonholo.chronosimplesapi.domain.WorkedHours;
+import dev.tonholo.chronosimplesapi.repository.postgres.ExpenseRepository;
 import dev.tonholo.chronosimplesapi.repository.postgres.FinancialDependentRepository;
 import dev.tonholo.chronosimplesapi.repository.postgres.PeriodRepository;
 import dev.tonholo.chronosimplesapi.service.event.TaxCalculationEvent;
@@ -41,6 +42,7 @@ class TaxesServiceTest {
     @Mock private TaxCalculationEventValidation taxCalculationEventValidation;
     @Mock private PeriodRepository periodRepository;
     @Mock private FinancialDependentRepository financialDependentRepository;
+    @Mock private ExpenseRepository expenseRepository;
 
     @BeforeEach
     void setUp() {
@@ -50,7 +52,8 @@ class TaxesServiceTest {
                 baseTaxes,
                 taxCalculationEventValidation,
                 periodRepository,
-                financialDependentRepository);
+                financialDependentRepository,
+                expenseRepository);
     }
 
     @Test

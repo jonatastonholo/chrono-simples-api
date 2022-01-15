@@ -68,7 +68,9 @@ public class PeriodService {
     }
 
     public Flux<Period> findAll() {
-        return periodRepository.findAll();
+        return periodRepository
+                .findAll()
+                .sort((period1, period2) -> period2.getBegin().compareTo(period1.getBegin()));
     }
 
     public Mono<Period> findMostRecentPeriodWithoutEnd() {
